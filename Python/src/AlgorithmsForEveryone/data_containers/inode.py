@@ -7,6 +7,9 @@ T = TypeVar('T')
 class INode(Protocol, Generic[T]):
     """
     Node interface that defines the basic operations all nodes must implement.
+
+    Attributes:
+        data (T): The data stored in this node.
     """
 
     @property

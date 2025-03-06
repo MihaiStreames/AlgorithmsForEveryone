@@ -8,6 +8,13 @@ T = TypeVar('T')
 class MaxHeap(AbstractHeap[T]):
     """
     A max-heap that stores plain values in a list (no node objects).
+    The comparator ensures that the largest value is at the root.
+
+    Args:
+        data: An optional list of values to build the heap from.
+
+    Attributes:
+        _data (List[T]): Inherited from AbstractHeap, stores all heap items.
     """
 
     def __init__(self, data: Optional[List[T]] = None):
@@ -19,15 +26,21 @@ class MaxHeap(AbstractHeap[T]):
         """
         Build a max-heap from a list of values in O(n) time
         via bottom-up heap construction.
+
+        Args:
+            data: The list of values to be turned into a heap.
         """
-        self._data = data[:]  # Make a copy
+        self._data = data[:]
         # Call _swim_down from the last non-leaf down to the root
         for i in range((self.size // 2) - 1, -1, -1):
             self._swim_down(i)
 
     def _swim_up(self, idx: int) -> None:
         """
-        Move the element at idx upward while it's larger than its parent.
+        Bubble the element at idx upward while it's larger than its parent.
+
+        Args:
+            idx: The index of the element to bubble up.
         """
         while idx > 0:
             parent = self._parent(idx)
@@ -39,7 +52,10 @@ class MaxHeap(AbstractHeap[T]):
 
     def _swim_down(self, idx: int) -> None:
         """
-        Move the element at idx downward while it's smaller than its largest child.
+        Bubble the element at idx downward while it's smaller than its largest child.
+
+        Args:
+            idx: The index of the element to bubble down.
         """
         size = self.size
         while True:
