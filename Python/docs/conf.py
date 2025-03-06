@@ -11,10 +11,10 @@ release = '0.1.0'
 
 # -- General configuration ---------------------------------------------------
 extensions = [
-    'sphinx.ext.autodoc',  # Core: pulls in docstrings
-    'sphinx.ext.napoleon',  # Support for Google/NumPy docstring style
-    'sphinx.ext.viewcode',  # Add "View Source" links
-    'sphinx.ext.autosummary',  # Auto-generate summary tables for modules/classes
+    'sphinx.ext.autodoc',       # Core: pulls in docstrings
+    'sphinx.ext.napoleon',      # Support for Google/NumPy docstring style
+    'sphinx.ext.viewcode',      # Add "View Source" links
+    'sphinx.ext.autosummary',   # Auto-generate summary tables for modules/classes
 ]
 
 # Generate autosummary pages automatically
