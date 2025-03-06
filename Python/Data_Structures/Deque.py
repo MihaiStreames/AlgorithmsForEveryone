@@ -1,4 +1,4 @@
-from DataStructs import ListNode
+from Blueprints.Data_Structures import ListNode
 
 
 class Deque:
@@ -132,7 +132,7 @@ class NodeDeque:
             self.rear = new_node
         else:
             new_node.next = self.front
-            self.front.prev = new_node
+            self.front.previous = new_node
             self.front = new_node
 
         self._size += 1
@@ -149,7 +149,7 @@ class NodeDeque:
         self.front = self.front.next
 
         if self.front is not None:
-            self.front.prev = None
+            self.front.previous = None
         else:
             self.rear = None
 
@@ -168,7 +168,7 @@ class NodeDeque:
             self.rear = new_node
         else:
             self.rear.next = new_node
-            new_node.prev = self.rear
+            new_node.previous = self.rear
             self.rear = new_node
 
         self._size += 1
@@ -182,7 +182,7 @@ class NodeDeque:
             raise IndexError("remove_rear from empty deque")
 
         item = self.tail()
-        self.rear = self.rear.prev
+        self.rear = self.rear.previous
 
         if self.rear is not None:
             self.rear.next = None

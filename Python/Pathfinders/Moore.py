@@ -1,4 +1,7 @@
-from Blueprints.Data_Structures import DynamicGraph, StaticGraph, Queue
+from Blueprints.Graph import DynamicGraph
+from Blueprints.Graph import StaticGraph
+from Blueprints.Queue import Queue
+
 
 def moore(graph, start, end):
     """

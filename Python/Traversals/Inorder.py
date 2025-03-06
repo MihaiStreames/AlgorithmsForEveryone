@@ -1,4 +1,4 @@
-from Blueprints.Data_Structures import Stack
+from Blueprints.Stack import Stack
 
 
 def inorder_rec_tree(tree: "BinaryTree"):

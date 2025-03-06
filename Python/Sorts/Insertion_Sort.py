@@ -1,4 +1,4 @@
-def insertionSort(array):
+def insertion_sort(array):
     for i in range(1, len(array)):
         curr_val = array[i]
         curr_pos = i - 1

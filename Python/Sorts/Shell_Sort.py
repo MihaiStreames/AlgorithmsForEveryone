@@ -1,4 +1,4 @@
-def gapInsertionSort(array, start, gap):
+def gap_insertion_sort(array, start, gap):
     for i in range(start + gap, len(array), gap):
         curr_val = array[i]
         curr_pos = i
@@ -10,12 +10,12 @@ def gapInsertionSort(array, start, gap):
         array[curr_pos] = curr_val
 
 
-def shellSort(array):
+def shell_sort(array):
     sublist_count = len(array) // 2
 
     while sublist_count > 0:
         for start_pos in range(sublist_count):
-            gapInsertionSort(array, start_pos, sublist_count)
+            gap_insertion_sort(array, start_pos, sublist_count)
 
         print("After increments of size", sublist_count, "the list is", array)
         sublist_count //= 2

@@ -1,4 +1,4 @@
-from Blueprints.Data_Structures import Deque
+from Blueprints.Deque import Deque
 
 
 def bfs_static(graph: "StaticGraph", start: int) -> list:

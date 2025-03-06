@@ -1,4 +1,4 @@
-from Blueprints.Data_Structures import Queue
+from Blueprints.Queue import Queue
 
 
 def level_order_tree(tree: "BinaryTree"):

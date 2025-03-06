@@ -24,7 +24,7 @@ class UnorderedLinkedList:
             curr = curr.next
 
     @property
-    def isEmpty(self) -> bool:
+    def is_empty(self) -> bool:
         """
         Check if the linked list is empty.
         :return: True if the linked list is empty, False otherwise.
@@ -41,7 +41,7 @@ class UnorderedLinkedList:
         self.head = new_node
         self.count += 1
 
-    def insertAfter(self, base, item):
+    def insert_after(self, base, item):
         """
         Insert an item after a given base item.
         :param base: The item after which the new item is to be inserted.
@@ -112,7 +112,7 @@ class CircularUnorderedLinkedList(UnorderedLinkedList):
         self.head = ListNode(-1)
         self.head.next = self.head
 
-    def isEmpty(self) -> bool:
+    def is_empty(self) -> bool:
         """
         Check if the circular linked list is empty.
         :return: True if the circular linked list is empty, False otherwise.
@@ -129,7 +129,7 @@ class CircularUnorderedLinkedList(UnorderedLinkedList):
         self.head.next = new_node
         self.count += 1
 
-    def insertAfter(self, base, item):
+    def insert_after(self, base, item):
         """
         Insert an item after a given base item in the circular linked list.
         :param base: The item after which the new item is to be inserted.
@@ -192,12 +192,12 @@ class UnorderedDoublyLinkedList(UnorderedLinkedList):
         new_node.next = self.head
 
         if self.head:
-            self.head.prev = new_node
+            self.head.previous = new_node
 
         self.head = new_node
         self.count += 1
 
-    def insertAfter(self, base, item):
+    def insert_after(self, base, item):
         """
         Insert an item after a given base item.
         :param base: The item after which the new item is to be inserted.
@@ -209,11 +209,11 @@ class UnorderedDoublyLinkedList(UnorderedLinkedList):
 
         new_node = ListNode(item)
         new_node.next = base_node.next
-        new_node.prev = base_node
+        new_node.previous = base_node
         base_node.next = new_node
 
         if new_node.next:
-            new_node.next.prev = new_node
+            new_node.next.previous = new_node
         self.count += 1
 
     def remove(self, item):
@@ -230,7 +230,7 @@ class UnorderedDoublyLinkedList(UnorderedLinkedList):
         else:
             self.head = curr.next
         if curr.next:
-            curr.next.prev = curr.previous
+            curr.next.previous = curr.previous
         self.count -= 1
 
 
@@ -253,7 +253,7 @@ class EdgeUnorderedLinkedList(UnorderedDoublyLinkedList):
         new_edge.next = self.head
 
         if self.head:
-            self.head.prev = new_edge
+            self.head.previous = new_edge
 
         self.head = new_edge
         self.count += 1
@@ -267,10 +267,10 @@ class EdgeUnorderedLinkedList(UnorderedDoublyLinkedList):
 
         while e:
             if e.dest == vertex:
-                if e.prev:
-                    e.prev.next = e.next
+                if e.previous:
+                    e.previous.next = e.next
                 if e.next:
-                    e.next.prev = e.prev
+                    e.next.previous = e.previous
                 self.count -= 1
                 return
 
@@ -299,3 +299,4 @@ class EdgeUnorderedLinkedList(UnorderedDoublyLinkedList):
         """
         e = self.search(vertex)
         return e if e else None
+

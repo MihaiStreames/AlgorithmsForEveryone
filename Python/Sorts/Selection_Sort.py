@@ -1,4 +1,4 @@
-def selectionSort(array):
+def selection_sort(array):
     for last in range(len(array) - 1, 0, -1):
         max_pos = 0
 

@@ -1,4 +1,4 @@
-from DataStructs import EdgeUnorderedLinkedList
+from Blueprints.Data_Structures import EdgeUnorderedLinkedList
 
 
 class Vertex:
@@ -46,14 +46,14 @@ class Vertex:
         return self._edges
 
     @property
-    def outEdges(self):
+    def out_edges(self):
         """
         Get the list of outgoing edges of the vertex.
         :return: The list of outgoing edges of the vertex.
         """
         return self.edges
 
-    def addEdge(self, dest, weight):
+    def add_edge(self, dest, weight):
         """
         Add an edge to the vertex.
         :param dest: The destination vertex of the edge.
@@ -100,7 +100,7 @@ class StaticGraph:
         """
         self.adj[i][j] = 0
 
-    def hasEdge(self, i: int, j: int) -> bool:
+    def has_edge(self, i: int, j: int) -> bool:
         """
         Check if there is an edge between vertex i and vertex j.
         :param i: The starting vertex of the edge.
@@ -118,7 +118,7 @@ class StaticGraph:
         """
         return self.adj[i][j]
 
-    def toDynamic(self):
+    def to_dynamic(self):
         """
         Convert the static graph to a dynamic graph representation.
         :return: A dynamic graph with the same edges and weights.
@@ -162,7 +162,7 @@ class DynamicGraph:
         :param j: The ending vertex of the edge.
         :param weight: The weight of the edge. Default is 1.
         """
-        self.neighbors[i].addEdge(j, weight)
+        self.neighbors[i].add_edge(j, weight)
 
     def unlink(self, i: int, j: int):
         """
@@ -172,7 +172,7 @@ class DynamicGraph:
         """
         self.neighbors[i].edges.remove(j)
 
-    def hasEdge(self, i: int, j: int) -> bool:
+    def has_edge(self, i: int, j: int) -> bool:
         """
         Check if there is an edge from vertex i to vertex j.
         :param i: The starting vertex of the edge.
@@ -190,7 +190,7 @@ class DynamicGraph:
         """
         return self.neighbors[i].edges.weight(j)
 
-    def toStatic(self):
+    def to_static(self):
         """
         Convert the dynamic graph to a static graph representation.
         :return: A static graph with the same edges and weights.
@@ -198,7 +198,8 @@ class DynamicGraph:
         G_stat = StaticGraph(self.n)
 
         for i in range(self.n):
-            for e in self.neighbors[i].outEdges:
+            for e in self.neighbors[i].out_edges:
                 G_stat.link(i, e.dest, e.weight)
 
         return G_stat
+

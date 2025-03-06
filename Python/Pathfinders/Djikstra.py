@@ -1,4 +1,4 @@
-from Blueprints.Data_Structures import DynamicGraph, StaticGraph
+from Blueprints.Graph import DynamicGraph, StaticGraph
 
 
 def dijkstra(graph, src):

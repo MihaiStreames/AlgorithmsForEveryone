@@ -1,12 +1,12 @@
 # Blueprints/Algorithms/Pathfinding/__init__.py
 
+from .Djikstra import dijkstra
+from .Moore import moore
 from .BFS import *
-from .Djikstra import Djikstra
-from .Moore import Moore
 
 __all__ = [
-    'Djikstra',
-    'Moore',
-    'BFSStatic',
+    'dijkstra',
+    'moore',
+    'bfs_static',
     'bfs_dynamic'
 ]
