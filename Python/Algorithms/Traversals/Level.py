@@ -1,7 +1,7 @@
-from Blueprints.Data_Structures import Queue
+from DataStructs import Queue, BinaryTree, NodeBinaryTree, ForestNode
 
 
-def level_order_tree(tree: "BinaryTree"):
+def levelOrderTree(tree: BinaryTree):
     """
     Perform a level order traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
@@ -10,40 +10,40 @@ def level_order_tree(tree: "BinaryTree"):
         return
 
     queue = Queue()
-    queue.enqueue(tree)
+    queue.enq(tree)
 
-    while not queue.is_empty():
-        curr = queue.dequeue()
+    while not queue.isEmpty():
+        curr = queue.deq()
 
         if curr:
-            print(curr.get_root_val())
-            queue.enqueue(curr.get_left_child())
-            queue.enqueue(curr.get_right_child())
+            print(curr.getRootVal())
+            queue.enq(curr.getLeftChild())
+            queue.enq(curr.getRightChild())
 
 
-def level_order_node_tree(tree: "NodeBinaryTree"):
+def levelOrderNodeTree(tree: NodeBinaryTree):
     """
     Perform a level order traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The root of the binary tree.
     """
-    if tree.tree_get_root() is None:
+    if tree.treeGetRoot() is None:
         return
 
     queue = Queue()
-    queue.enqueue(tree.tree_get_root())
+    queue.enq(tree.treeGetRoot())
 
-    while not queue.is_empty():
-        curr = queue.dequeue()
+    while not queue.isEmpty():
+        curr = queue.deq()
 
         if curr:
             print(curr.data)
             if curr.left is not None:
-                queue.enqueue(curr.left)
+                queue.enq(curr.left)
             if curr.right is not None:
-                queue.enqueue(curr.right)
+                queue.enq(curr.right)
 
 
-def level_order_forest(forest: "ForestNode"):
+def levelOrderForest(forest: ForestNode):
     """
     Perform a level order traversal of a forest (ForestNode class).
     :param forest: The root of the forest.
@@ -52,12 +52,12 @@ def level_order_forest(forest: "ForestNode"):
         return
 
     queue = Queue()
-    queue.enqueue(forest)
+    queue.enq(forest)
 
-    while not queue.is_empty():
-        curr = queue.dequeue()
+    while not queue.isEmpty():
+        curr = queue.deq()
 
         while curr:
-            print(curr.get_root_val())
-            queue.enqueue(curr.get_child())
-            curr = curr.get_brother()
+            print(curr.getRootVal())
+            queue.enq(curr.getChild())
+            curr = curr.getBrother()

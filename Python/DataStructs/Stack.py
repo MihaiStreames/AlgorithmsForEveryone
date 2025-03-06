@@ -1,4 +1,4 @@
-from Blueprints.Data_Structures import ListNode
+from DataStructs import ListNode
 
 
 class Stack:
@@ -26,7 +26,7 @@ class Stack:
         """
         return self.__len__()
 
-    def is_empty(self) -> bool:
+    def isEmpty(self) -> bool:
         """
         Check if the stack is empty.
         :return: True if the stack is empty, False otherwise.
@@ -81,7 +81,7 @@ class NodeStack:
         """
         return self.__len__()
 
-    def is_empty(self) -> bool:
+    def isEmpty(self) -> bool:
         """
         Check if the stack is empty.
         :return: True if the stack is empty, False otherwise.
@@ -106,11 +106,11 @@ class NodeStack:
         Remove and return the top item from the stack.
         :return: The item removed from the top of the stack.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("pop from empty stack")
 
         item = self.head.data
-        self.head = self.head.previous
+        self.head = self.head.prev
 
         if self.head is not None:
             self.head.next = None
@@ -123,7 +123,7 @@ class NodeStack:
         Return the top item of the stack without removing it.
         :return: The top item of the stack.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("peek from empty stack")
 
         return self.head.data
@@ -155,7 +155,7 @@ class NodeStackNext:
         """
         return self.__len__()
 
-    def is_empty(self) -> bool:
+    def isEmpty(self) -> bool:
         """
         Check if the stack is empty.
         :return: True if the stack is empty, False otherwise.
@@ -176,7 +176,7 @@ class NodeStackNext:
         Remove and return the top item from the stack.
         :return: The item removed from the top of the stack.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("pop from empty stack")
 
         data = self.head.data
@@ -189,7 +189,7 @@ class NodeStackNext:
         Return the top item of the stack without removing it.
         :return: The top item of the stack.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("peek from empty stack")
 
         return self.head.data

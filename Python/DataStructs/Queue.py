@@ -26,7 +26,7 @@ class Queue:
         """
         return self.__len__()
 
-    def is_empty(self) -> bool:
+    def isEmpty(self) -> bool:
         """
         Check if the queue is empty.
         :return: True if the queue is empty, False otherwise.
@@ -38,19 +38,19 @@ class Queue:
         Return the front item from the queue without removing it.
         :return: The item at the front of the queue.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("head from empty queue")
 
         return self.items[-1]
 
-    def enqueue(self, item):
+    def enq(self, item):
         """
         Add an item to the end of the queue.
         :param item: The item to be added to the queue.
         """
         self.items.insert(0, item)
 
-    def dequeue(self):
+    def deq(self):
         """
         Remove and return the front item from the queue.
         :return: The item removed from the front of the queue.
@@ -85,7 +85,7 @@ class NodeQueue:
         """
         return self.__len__()
 
-    def is_empty(self) -> bool:
+    def isEmpty(self) -> bool:
         """
         Check if the queue is empty.
         :return: True if the queue is empty, False otherwise.
@@ -97,12 +97,12 @@ class NodeQueue:
         Return the front item from the queue without removing it.
         :return: The item at the front of the queue.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("head from empty queue")
 
         return self.front.data
 
-    def enqueue(self, item):
+    def enq(self, item):
         """
         Add an item to the end of the queue.
         :param item: The item to be added to the queue.
@@ -111,7 +111,7 @@ class NodeQueue:
 
         if self.rear is not None:
             self.rear.next = new_node
-            new_node.previous = self.rear
+            new_node.prev = self.rear
 
         self.rear = new_node
 
@@ -120,19 +120,19 @@ class NodeQueue:
 
         self._size += 1
 
-    def dequeue(self):
+    def deq(self):
         """
         Remove and return the front item from the queue.
         :return: The item removed from the front of the queue.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("dequeue from empty queue")
 
         item = self.head()
         self.front = self.front.next
 
         if self.front is not None:
-            self.front.previous = None
+            self.front.prev = None
         else:
             self.rear = None
 
@@ -167,7 +167,7 @@ class NodeQueueNext:
         """
         return self.__len__()
 
-    def is_empty(self) -> bool:
+    def isEmpty(self) -> bool:
         """
         Check if the queue is empty.
         :return: True if the queue is empty, False otherwise.
@@ -179,19 +179,19 @@ class NodeQueueNext:
         Return the front item from the queue without removing it.
         :return: The item at the front of the queue.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("head from empty queue")
 
         return self.front.data
 
-    def enqueue(self, item):
+    def enq(self, item):
         """
         Add an item to the end of the queue.
         :param item: The item to be added to the queue.
         """
         new_node = ListNode(item)
 
-        if self.is_empty():
+        if self.isEmpty():
             self.front = new_node
             self.rear = new_node
         else:
@@ -200,12 +200,12 @@ class NodeQueueNext:
 
         self._size += 1
 
-    def dequeue(self):
+    def deq(self):
         """
         Remove and return the front item from the queue.
         :return: The item removed from the front of the queue.
         """
-        if self.is_empty():
+        if self.isEmpty():
             raise IndexError("dequeue from empty queue")
 
         item = self.head()

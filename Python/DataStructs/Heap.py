@@ -48,7 +48,7 @@ class Heap:
         :param data: The element to be inserted.
         """
         self._array.append(data)
-        self.swim_up(len(self._array) - 1)
+        self.swimUp(len(self._array) - 1)
 
     def delete(self):
         """
@@ -61,7 +61,7 @@ class Heap:
         res = self._array[0]
         self._array[0] = self._array[-1]
         self._array.pop()
-        self.swim_down(0)
+        self.swimDown(0)
 
         return res
 
@@ -72,14 +72,14 @@ class Heap:
         """
         raise NotImplementedError("Please implement in subclass")
 
-    def swim_up(self, idx):
+    def swimUp(self, idx):
         """
         Restore the heap property by swimming up the element at the given index.
         :param idx: The index of the element to swim up.
         """
         raise NotImplementedError("Please implement in subclass")
 
-    def swim_down(self, idx):
+    def swimDown(self, idx):
         """
         Restore the heap property by swimming down the element at the given index.
         :param idx: The index of the element to swim down.
@@ -87,7 +87,7 @@ class Heap:
         raise NotImplementedError("Please implement in subclass")
 
     @classmethod
-    def heap_sort(cls, array):
+    def heapSort(cls, array):
         """
         Perform heap sort on the given array.
         :param array: The array to be sorted.
@@ -99,7 +99,8 @@ class Heap:
         while heap._array:
             sorted_array.append(heap.delete())
         # array[:] is used to modify the original array
-        array[:] = sorted_array[::-1] if issubclass(cls, MaxHeap) else sorted_array  # Reverses the array if it's a MaxHeap, otherwise it's left as is (MinHeap)
+        array[:] = sorted_array[::-1] if issubclass(cls,
+                                                    MaxHeap) else sorted_array  # Reverses the array if it's a MaxHeap, otherwise it's left as is (MinHeap)
 
 
 class MinHeap(Heap):
@@ -133,7 +134,7 @@ class MinHeap(Heap):
             self._array[idx], self._array[smallest] = self._array[smallest], self._array[idx]
             self.heapify(smallest)
 
-    def swim_up(self, idx):
+    def swimUp(self, idx):
         """
         Restore the min-heap property by swimming up the element at the given index.
         :param idx: The index of the element to swim up.
@@ -147,7 +148,7 @@ class MinHeap(Heap):
             else:
                 break
 
-    def swim_down(self, idx):
+    def swimDown(self, idx):
         """
         Restore the min-heap property by swimming down the element at the given index.
         :param idx: The index of the element to swim down.
@@ -164,7 +165,7 @@ class MinHeap(Heap):
 
         if smallest != idx:
             self._array[idx], self._array[smallest] = self._array[smallest], self._array[idx]
-            self.swim_down(smallest)
+            self.swimDown(smallest)
 
 
 class MaxHeap(Heap):
@@ -198,7 +199,7 @@ class MaxHeap(Heap):
             self._array[idx], self._array[largest] = self._array[largest], self._array[idx]
             self.heapify(largest)
 
-    def swim_up(self, idx):
+    def swimUp(self, idx):
         """
         Restore the max-heap property by swimming up the element at the given index.
         :param idx: The index of the element to swim up.
@@ -212,7 +213,7 @@ class MaxHeap(Heap):
             else:
                 break
 
-    def swim_down(self, idx):
+    def swimDown(self, idx):
         """
         Restore the max-heap property by swimming down the element at the given index.
         :param idx: The index of the element to swim down.
@@ -229,4 +230,4 @@ class MaxHeap(Heap):
 
         if largest != idx:
             self._array[idx], self._array[largest] = self._array[largest], self._array[idx]
-            self.swim_down(largest)
+            self.swimDown(largest)

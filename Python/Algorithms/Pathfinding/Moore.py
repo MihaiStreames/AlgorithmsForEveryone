@@ -1,6 +1,7 @@
-from Blueprints.Data_Structures import DynamicGraph, StaticGraph, Queue
+from DataStructs import DynamicGraph, StaticGraph, Queue
 
-def moore(graph, start, end):
+
+def Moore(graph: DynamicGraph or StaticGraph, start, end):
     """
     Implement the Moore's algorithm to find the shortest path in a graph from start to end vertex.
     :param graph: The input graph, either DynamicGraph or StaticGraph.
@@ -16,24 +17,24 @@ def moore(graph, start, end):
 
     # Initialize the queue and enqueue the start vertex
     q = Queue()
-    q.enqueue(start)
+    q.enq(start)
 
     # BFS to find shortest path
-    while not q.is_empty():
-        u = q.dequeue()
+    while not q.isEmpty():
+        u = q.deq()
 
         # Get neighbors based on graph type
         if isinstance(graph, DynamicGraph):
             neighbors = [edge.dest for edge in graph.neighbors[u].edges]
         elif isinstance(graph, StaticGraph):
-            neighbors = [v for v in range(graph.n) if graph.has_edge(u, v)]
+            neighbors = [v for v in range(graph.n) if graph.hasEdge(u, v)]
         else:
             raise ValueError("Graph type not supported")
 
         # Update index and parent for each neighbor
         for i in neighbors:
             if index[i] == float('inf'):
-                q.enqueue(i)
+                q.enq(i)
                 index[i] = index[u] + 1
                 parent[i] = u
 

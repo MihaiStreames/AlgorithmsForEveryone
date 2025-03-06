@@ -59,7 +59,7 @@ class ListNode(Node):
         return self._next
 
     @property
-    def previous(self):
+    def prev(self):
         """
         Get the previous node in the linked list.
         :return: The previous node.
@@ -74,8 +74,8 @@ class ListNode(Node):
         """
         self._next = new_next
 
-    @previous.setter
-    def previous(self, new_previous):
+    @prev.setter
+    def prev(self, new_previous):
         """
         Set the previous node in the linked list.
         :param new_previous: The new previous node.

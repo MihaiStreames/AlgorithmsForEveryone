@@ -1,4 +1,6 @@
-def roy_warshall(graph):
+from DataStructs import StaticGraph
+
+def RoyWarshall(graph: StaticGraph):
     """
     Implement the Roy-Warshall algorithm to compute the transitive closure of a static graph.
     :param graph: The input static graph.

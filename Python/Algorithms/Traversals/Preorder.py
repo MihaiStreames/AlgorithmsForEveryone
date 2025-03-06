@@ -1,18 +1,17 @@
-from Blueprints.Data_Structures import Stack
+from DataStructs import TreeNode, ForestNode, BinaryTree, NodeBinaryTree, Stack
 
-
-def preorder_rec_tree(tree: "BinaryTree"):
+def preorderRecTree(tree: BinaryTree):
     """
     Perform a recursive preorder traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
     """
     if tree is not None:
-        print(tree.get_root_val())
-        preorder_rec_tree(tree.get_left_child())
-        preorder_rec_tree(tree.get_right_child())
+        print(tree.getRootVal())
+        preorderRecTree(tree.getLeftChild())
+        preorderRecTree(tree.getRightChild())
 
 
-def preorder_iter_tree(tree: "BinaryTree"):
+def preorderIterTree(tree: BinaryTree):
     """
     Perform an iterative preorder traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
@@ -23,42 +22,43 @@ def preorder_iter_tree(tree: "BinaryTree"):
     stack = Stack()
     stack.push(tree)
 
-    while not stack.is_empty():
+    while not stack.isEmpty():
         curr = stack.pop()
-        print(curr.get_root_val())
+        print(curr.getRootVal())
 
-        if curr.get_right_child() is not None:
-            stack.push(curr.get_right_child())
-        if curr.get_left_child() is not None:
-            stack.push(curr.get_left_child())
+        if curr.getRightChild() is not None:
+            stack.push(curr.getRightChild())
+        if curr.getLeftChild() is not None:
+            stack.push(curr.getLeftChild())
 
 
-def preorder_node_tree(tree: "NodeBinaryTree"):
+def preorderNodeTree(tree: NodeBinaryTree):
     """
     Perform a recursive preorder traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The binary tree.
     """
-    def preorder_node(node: "TreeNode"):
+
+    def preorderNode(node: TreeNode):
         if node is not None:
             print(node.data)
-            preorder_node(tree.tree_get_left(node))
-            preorder_node(tree.tree_get_right(node))
+            preorderNode(tree.treeGetLeft(node))
+            preorderNode(tree.treeGetRight(node))
 
-    preorder_node(tree.tree_get_root())
+    preorderNode(tree.treeGetRoot())
 
 
-def preorder_iter_node_tree(tree: "NodeBinaryTree"):
+def preorderIterNodeTree(tree: NodeBinaryTree):
     """
     Perform an iterative preorder traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The binary tree.
     """
-    if tree.tree_get_root() is None:
+    if tree.treeGetRoot() is None:
         return
 
     stack = Stack()
-    stack.push(tree.tree_get_root())
+    stack.push(tree.treeGetRoot())
 
-    while not stack.is_empty():
+    while not stack.isEmpty():
         curr = stack.pop()
         print(curr.data)
 
@@ -68,12 +68,12 @@ def preorder_iter_node_tree(tree: "NodeBinaryTree"):
             stack.push(curr.left)
 
 
-def preorder_forest(forest: "ForestNode"):
+def preorderForest(forest: ForestNode):
     """
     Perform a preorder traversal of a forest (ForestNode class).
     :param forest: The forest root.
     """
     while forest is not None:
-        print(forest.get_root_val())
-        preorder_forest(forest.get_child())
-        forest = forest.get_brother()
+        print(forest.getRootVal())
+        preorderForest(forest.getChild())
+        forest = forest.getBrother()

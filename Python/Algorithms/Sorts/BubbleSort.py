@@ -1,11 +1,11 @@
-def bubble_sort(array):
+def bubbleSort(array):
     for end_idx in range(len(array) - 1, 0, -1):
         for curr in range(end_idx):
             if array[curr] > array[curr + 1]:
                 array[curr], array[curr + 1] = array[curr + 1], array[curr]
 
 
-def optimized_bubble_sort(array):
+def optimizedBubbleSort(array):
     swapped = True
     last_unsorted_idx = len(array) - 1
 

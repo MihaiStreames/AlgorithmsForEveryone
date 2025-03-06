@@ -1,7 +1,7 @@
 from Blueprints.Data_Structures import Deque
 
 
-def bfs_static(graph: "StaticGraph", start: int) -> list:
+def BFSStatic(graph: StaticGraph, start: int) -> list:
     """
     Perform a breadth-first search on a static graph (represented by an adjacency matrix).
     :param graph: The graph to search (static).
@@ -13,7 +13,7 @@ def bfs_static(graph: "StaticGraph", start: int) -> list:
     queue.add_rear(start)
     result = []
 
-    while not queue.is_empty():
+    while not queue.isEmpty():
         vertex = queue.remove_front()
 
         if not visited[vertex]:
@@ -39,7 +39,7 @@ def bfs_dynamic(graph: "DynamicGraph", start: int) -> list:
     queue.add_rear(start)
     result = []
 
-    while not queue.is_empty():
+    while not queue.isEmpty():
         vertex_idx = queue.remove_front()
 
         if not visited[vertex_idx]:
@@ -47,7 +47,7 @@ def bfs_dynamic(graph: "DynamicGraph", start: int) -> list:
             visited[vertex_idx] = True
             result.append(vertex.idx)
 
-            for edge in vertex.out_edges:
+            for edge in vertex.outEdges:
                 if not visited[edge.dest]:
                     queue.add_rear(edge.dest)
 

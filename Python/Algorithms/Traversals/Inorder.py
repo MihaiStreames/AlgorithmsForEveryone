@@ -1,18 +1,18 @@
-from Blueprints.Data_Structures import Stack
+from DataStructs import Stack, BinaryTree, NodeBinaryTree, TreeNode
 
 
-def inorder_rec_tree(tree: "BinaryTree"):
+def inorderRecTree(tree: BinaryTree):
     """
     Perform an inorder traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
     """
     if tree is not None:
-        inorder_rec_tree(tree.get_left_child())
-        print(tree.get_root_val())
-        inorder_rec_tree(tree.get_right_child())
+        inorderRecTree(tree.getLeftChild())
+        print(tree.getRootVal())
+        inorderRecTree(tree.getRightChild())
 
 
-def inorder_iter_tree(tree: "BinaryTree"):
+def inorderIterTree(tree: BinaryTree):
     """
     Perform an iterative inorder traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
@@ -20,43 +20,44 @@ def inorder_iter_tree(tree: "BinaryTree"):
     stack = Stack()
     curr = tree
 
-    while not stack.is_empty() or curr is not None:
+    while not stack.isEmpty() or curr is not None:
         if curr is not None:
             stack.push(curr)
-            curr = curr.get_left_child()
+            curr = curr.getLeftChild()
         else:
             curr = stack.pop()
-            print(curr.get_root_val())
-            curr = curr.get_right_child()
+            print(curr.getRootVal())
+            curr = curr.getRightChild()
 
 
-def inorder_node_tree(tree: "NodeBinaryTree"):
+def inorderNodeTree(tree: NodeBinaryTree):
     """
     Perform an inorder traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The root of the binary tree.
     """
-    def inorder_node(node: "TreeNode"):
+
+    def inorderNode(node: TreeNode):
         if node is not None:
-            inorder_node(tree.tree_get_left(node))
+            inorderNode(tree.treeGetLeft(node))
             print(node.data)
-            inorder_node(tree.tree_get_right(node))
+            inorderNode(tree.treeGetRight(node))
 
-    inorder_node(tree.tree_get_root())
+    inorderNode(tree.treeGetRoot())
 
 
-def inorder_iter_node_tree(tree: "NodeBinaryTree"):
+def inorderIterNodeTree(tree: NodeBinaryTree):
     """
     Perform an iterative inorder traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The root of the binary tree.
     """
     stack = Stack()
-    curr = tree.tree_get_root()
+    curr = tree.treeGetRoot()
 
-    while not stack.is_empty() or curr is not None:
+    while not stack.isEmpty() or curr is not None:
         if curr is not None:
             stack.push(curr)
-            curr = tree.tree_get_left(curr)
+            curr = tree.treeGetLeft(curr)
         else:
             curr = stack.pop()
             print(curr.data)
-            curr = tree.tree_get_right(curr)
+            curr = tree.treeGetRight(curr)

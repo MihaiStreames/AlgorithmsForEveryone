@@ -1,18 +1,18 @@
-from Blueprints.Data_Structures import Stack
+from DataStructs import Stack, BinaryTree, NodeBinaryTree, TreeNode, ForestNode
 
 
-def postorder_rec_tree(tree: "BinaryTree"):
+def postorderRecTree(tree: BinaryTree):
     """
     Perform a recursive postorder traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
     """
     if tree is not None:
-        postorder_rec_tree(tree.get_left_child())
-        postorder_rec_tree(tree.get_right_child())
-        print(tree.get_root_val())
+        postorderRecTree(tree.getLeftChild())
+        postorderRecTree(tree.getRightChild())
+        print(tree.getRootVal())
 
 
-def postorder_iter_tree(tree: "BinaryTree"):
+def postorderIterTree(tree: BinaryTree):
     """
     Perform an iterative postorder traversal of a recursive binary tree (BinaryTree class).
     :param tree: The root of the binary tree.
@@ -24,47 +24,48 @@ def postorder_iter_tree(tree: "BinaryTree"):
     out = Stack()
     stack.push(tree)
 
-    while not stack.is_empty():
+    while not stack.isEmpty():
         curr = stack.pop()
         out.push(curr)
 
-        if curr.get_left_child() is not None:
-            stack.push(curr.get_left_child())
-        if curr.get_right_child() is not None:
-            stack.push(curr.get_right_child())
+        if curr.getLeftChild() is not None:
+            stack.push(curr.getLeftChild())
+        if curr.getRightChild() is not None:
+            stack.push(curr.getRightChild())
 
-    while not out.is_empty():
+    while not out.isEmpty():
         curr = out.pop()
-        print(curr.get_root_val())
+        print(curr.getRootVal())
 
 
-def postorder_node_tree(tree: "NodeBinaryTree"):
+def postorderNodeTree(tree: NodeBinaryTree):
     """
     Perform a recursive postorder traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The binary tree.
     """
-    def postorder_node(node: "TreeNode"):
+
+    def postorder_node(node: TreeNode):
         if node is not None:
-            postorder_node(tree.tree_get_left(node))
-            postorder_node(tree.tree_get_right(node))
+            postorder_node(tree.treeGetLeft(node))
+            postorder_node(tree.treeGetRight(node))
             print(node.data)
 
-    postorder_node(tree.tree_get_root())
+    postorder_node(tree.treeGetRoot())
 
 
-def postorder_iter_node_tree(tree: "NodeBinaryTree"):
+def postorderIterNodeTree(tree: NodeBinaryTree):
     """
     Perform an iterative postorder traversal of a node-based binary tree (NodeBinaryTree class).
     :param tree: The root of the binary tree.
     """
-    if tree.tree_get_root() is None:
+    if tree.treeGetRoot() is None:
         return
 
     stack = Stack()
     out = Stack()
-    stack.push(tree.tree_get_root())
+    stack.push(tree.treeGetRoot())
 
-    while not stack.is_empty():
+    while not stack.isEmpty():
         curr = stack.pop()
         out.push(curr)
 
@@ -73,17 +74,17 @@ def postorder_iter_node_tree(tree: "NodeBinaryTree"):
         if curr.right is not None:
             stack.push(curr.right)
 
-    while not out.is_empty():
+    while not out.isEmpty():
         curr = out.pop()
         print(curr.data)
 
 
-def postorder_forest(forest: "ForestNode"):
+def postorderForest(forest: ForestNode):
     """
     Perform a postorder traversal of a forest (ForestNode class).
     :param forest: The forest root.
     """
     while forest is not None:
-        postorder_forest(forest.get_child())
-        print(forest.get_root_val())
-        forest = forest.get_brother()
+        postorderForest(forest.getChild())
+        print(forest.getRootVal())
+        forest = forest.getBrother()

@@ -1,4 +1,6 @@
-def dfs_static(graph: "StaticGraph", start: int) -> list:
+from DataStructs import StaticGraph, DynamicGraph
+
+def DFSStatic(graph: StaticGraph, start: int) -> list:
     """
     Perform a depth-first search on a static graph (represented by an adjacency matrix).
     :param graph: The graph to search (static).
@@ -20,7 +22,7 @@ def dfs_static(graph: "StaticGraph", start: int) -> list:
     return result
 
 
-def dfs_dynamic(graph: "DynamicGraph", start: int) -> list:
+def DFSDynamic(graph: DynamicGraph, start: int) -> list:
     """
     Perform a depth-first search on a dynamic graph (represented by a list of vertices).
     :param graph: The graph to search (dynamic).
@@ -35,7 +37,7 @@ def dfs_dynamic(graph: "DynamicGraph", start: int) -> list:
         visited[vertex.idx] = True
         result.append(vertex.idx)
 
-        for edge in vertex.out_edges:
+        for edge in vertex.outEdges:
             if not visited[edge.dest]:
                 dfs(edge.dest)
 

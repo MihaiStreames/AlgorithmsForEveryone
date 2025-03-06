@@ -1,15 +1,15 @@
 # Blueprints/Data_Structures/__init__.py
 
-from .Node import *
-from .Linked_List import *
-from .Stack import *
-from .Queue import *
-from .Deque import *
-from .Binary_Tree import *
 from .BST import *
-from .Heap import *
+from .BinaryTree import *
+from .Deque import *
 from .Forest import *
 from .Graph import *
+from .Heap import *
+from .LinkedList import *
+from .Node import *
+from .Queue import *
+from .Stack import *
 
 __all__ = [
     'BinaryTree',

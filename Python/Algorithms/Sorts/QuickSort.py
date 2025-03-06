@@ -1,19 +1,19 @@
-from Blueprints.Sorts.Insertion_Sort import insertion_sort
+from Algorithms.Sorts import insertionSort
 
 
 # Simple Quick Sort
 class SimpleQuickSort:
-    def __init__(self, array, type=1):
+    def __init__(self, array, part_type=1):
         self.array = array
-        self.type = type
+        self.type = part_type
         self.quick_sort(0, len(self.array) - 1)
         print(self.array)
 
-    def partition(self, type, l, r, array):
-        if type == 1:
-            return self.partition_left(l, r, array)
+    def partition(self, part_type, l, r, array):
+        if part_type == 1:
+            return self.partitionLeft(l, r, array)
         else:
-            return self.partition_right(l, r, array)
+            return self.partitionRight(l, r, array)
 
     def quick_sort(self, l, r):
         if l < r:
@@ -21,7 +21,7 @@ class SimpleQuickSort:
             self.quick_sort(l, pivot - 1)
             self.quick_sort(pivot + 1, r)
 
-    def partition_right(self, l, r, array):
+    def partitionRight(self, l, r, array):
         pivot = array[r]  # Choose the last element as the pivot
         i = l - 1
 
@@ -33,7 +33,7 @@ class SimpleQuickSort:
         array[i + 1], array[r] = array[r], array[i + 1]
         return i + 1
 
-    def partition_left(self, l, r, array):
+    def partitionLeft(self, l, r, array):
         pivot = array[l]  # Choose the first element as the pivot
         i = l + 1
         j = r
@@ -57,8 +57,8 @@ class QuickSort:
     def __init__(self, array):
         self.array = array
         self.threshold = 16
-        self.quick_sort(0, len(self.array) - 1)
-        self.insertion_sort = insertion_sort(self.array)
+        self.quickSort(0, len(self.array) - 1)
+        self.insertion_sort = insertionSort(self.array)
         print(self.array)
 
     def partition(self, start, end):
@@ -76,7 +76,7 @@ class QuickSort:
     # Optimized pivot, based on median of three:
     # 1. Choose the first, middle and last elements from array
     # 2. Sort them and choose the middle element as the pivot
-    def optimize_pivot(self, start, end):
+    def optimizePivot(self, start, end):
         middle = (start + end) // 2
 
         if self.array[middle] > self.array[end]:
@@ -89,16 +89,16 @@ class QuickSort:
             self.array[end], self.array[middle] = self.array[middle], self.array[end]
 
     # If the size of the array is less than the threshold, use insertion sort
-    def quick_sort(self, start, end):
+    def quickSort(self, start, end):
         while end - start + 1 > self.threshold:
-            self.optimize_pivot(start, end)
+            self.optimizePivot(start, end)
             pivot = self.partition(start, end)
 
             if pivot - start < end - pivot:
-                self.quick_sort(start, pivot - 1)
+                self.quickSort(start, pivot - 1)
                 start = pivot + 1
             else:
-                self.quick_sort(pivot + 1, end)
+                self.quickSort(pivot + 1, end)
                 end = pivot - 1
 
 
@@ -126,14 +126,14 @@ class QuickSortDutchFlag(QuickSort):
 
         return low + 1, high - 1
 
-    def quick_sort(self, start, end):
+    def quickSort(self, start, end):
         while end - start + 1 > self.threshold:
-            self.optimize_pivot(start, end)
+            self.optimizePivot(start, end)
             low, high = self.partition(start, end)
 
             if low - start < end - high:
-                self.quick_sort(start, low - 1)
+                self.quickSort(start, low - 1)
                 start = high + 1
             else:
-                self.quick_sort(high + 1, end)
+                self.quickSort(high + 1, end)
                 end = low - 1

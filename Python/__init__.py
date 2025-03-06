@@ -1,9 +1,9 @@
 # Blueprints/__init__.py
 
-from .Data_Structures import *
 from .Algorithms import *
+from .DataStructs import *
 
 __all__ = [
     'Algorithms',
-    'Data_Structures'
+    'DataStructs'
 ]

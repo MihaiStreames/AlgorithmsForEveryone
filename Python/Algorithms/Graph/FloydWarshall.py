@@ -1,4 +1,6 @@
-def floyd_warshall(graph):
+from DataStructs import StaticGraph
+
+def floydWarshall(graph: StaticGraph):
     """
     Implement the Floyd-Warshall algorithm to find the shortest paths between all pairs of vertices in a static graph.
     :param graph: The input static graph.

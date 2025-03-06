@@ -1,4 +1,4 @@
-def merge_sort(array):
+def mergeSort(array):
     print("Splitting", array)
 
     if len(array) > 1:
@@ -6,8 +6,8 @@ def merge_sort(array):
         left_half = array[:mid]
         right_half = array[mid:]
 
-        merge_sort(left_half)
-        merge_sort(right_half)
+        mergeSort(left_half)
+        mergeSort(right_half)
 
         left_idx = 0
         right_idx = 0

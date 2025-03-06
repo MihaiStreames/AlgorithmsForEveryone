@@ -10,45 +10,45 @@ class ForestNode:
         :param item: The data to be stored in the node.
         """
         self._info = item
-        self._child = None      # Child will be another ForestNode (subtree)
-        self._brother = None    # Brother will be another ForestNode (sibling tree)
+        self._child = None  # Child will be another ForestNode (subtree)
+        self._brother = None  # Brother will be another ForestNode (sibling tree)
 
-    def get_root_val(self):
+    def getRootVal(self):
         """
         Get the value stored in the node.
         :return: The data stored in the node.
         """
         return self._info
 
-    def set_root_val(self, item):
+    def setRootVal(self, item):
         """
         Set the value stored in the node.
         :param item: The new data to be stored in the node.
         """
         self._info = item
 
-    def get_child(self):
+    def getChild(self):
         """
         Get the child of the node.
         :return: The child of the node.
         """
         return self._child
 
-    def get_brother(self):
-        """
-        Get the brother of the node.
-        :return: The brother of the node.
-        """
-        return self._brother
-
-    def set_child(self, new_node):
+    def setChild(self, new_node):
         """
         Set the child of the node.
         :param new_node: The data to be stored in the new child.
         """
         self._child = ForestNode(new_node)
 
-    def set_brother(self, new_node):
+    def getBrother(self):
+        """
+        Get the brother of the node.
+        :return: The brother of the node.
+        """
+        return self._brother
+
+    def setBrother(self, new_node):
         """
         Set the brother of the node.
         :param new_node: The data to be stored in the new brother.
@@ -70,21 +70,21 @@ class NAryTree:
         self._root = ForestNode(item)
         self._children = []
 
-    def get_root(self):
+    def getRoot(self):
         """
         Get the root node of the n-ary tree.
         :return: The root node of the n-ary tree.
         """
         return self._root
 
-    def get_children(self):
+    def getChildren(self):
         """
         Get the children of the root node.
         :return: The children of the root node.
         """
         return self._children
 
-    def add_child(self, item):
+    def addChild(self, item):
         """
         Add a child to the root node.
         :param item: The data to be stored in the new child.
@@ -92,15 +92,15 @@ class NAryTree:
         new_child = ForestNode(item)
         self._children.append(new_child)
 
-        if not self._root.get_child():
-            self._root.set_child(new_child)
+        if not self._root.getChild():
+            self._root.setChild(new_child)
         else:
-            last_child = self._root.get_child()
+            last_child = self._root.getChild()
 
-            while last_child.get_brother():
-                last_child = last_child.get_brother()
+            while last_child.getBrother():
+                last_child = last_child.getBrother()
 
-            last_child.set_brother(new_child)
+            last_child.setBrother(new_child)
 
 
 class Forest:
@@ -114,14 +114,14 @@ class Forest:
         """
         self._trees = []
 
-    def add_tree(self, tree):
+    def addTree(self, tree):
         """
         Add a new n-ary tree to the forest.
         :param tree: An instance of NAryTree to be added to the forest.
         """
         self._trees.append(tree)
 
-    def get_trees(self):
+    def getTrees(self):
         """
         Get the list of trees in the forest.
         :return: The list of n-ary trees in the forest.

@@ -1,4 +1,4 @@
-from Blueprints.Data_Structures import TreeNode
+from DataStructs import TreeNode
 
 
 class BinaryTree:
@@ -17,42 +17,42 @@ class BinaryTree:
         self._left = left
         self._right = right
 
-    def modify_left(self, item):
+    def modifyLeft(self, item):
         """
         Modify the left child of the tree.
         :param item: The data to be stored in the new left child.
         """
         self._left = BinaryTree(item)
 
-    def modify_right(self, item):
+    def modifyRight(self, item):
         """
         Modify the right child of the tree.
         :param item: The data to be stored in the new right child.
         """
         self._right = BinaryTree(item)
 
-    def get_root_val(self):
+    def getRootVal(self):
         """
         Get the value stored in the root of the tree.
         :return: The data stored in the root of the tree.
         """
         return self._data
 
-    def set_root_val(self, item):
+    def setRootVal(self, item):
         """
         Set the value stored in the root of the tree.
         :param item: The new data to be stored in the root of the tree.
         """
         self._data = item
 
-    def get_left_child(self):
+    def getLeftChild(self):
         """
         Get the left child of the tree.
         :return: The left child of the tree.
         """
         return self._left
 
-    def get_right_child(self):
+    def getRightChild(self):
         """
         Get the right child of the tree.
         :return: The right child of the tree.
@@ -72,30 +72,14 @@ class NodeBinaryTree:
         """
         self.root = TreeNode(init_data)
 
-    def tree_get_root(self):
+    def treeGetRoot(self):
         """
         Get the root of the tree.
         :return: The root of the tree.
         """
         return self.root
 
-    def tree_set_left(self, base, item):
-        """
-        Modify the left child of the base node.
-        :param base: The base node to modify.
-        :param item: The data to be stored in the new left child.
-        """
-        base.left = TreeNode(item)
-
-    def tree_set_right(self, base, item):
-        """
-        Modify the right child of the base node.
-        :param base: The base node to modify.
-        :param item: The data to be stored in the new right child.
-        """
-        base.right = TreeNode(item)
-
-    def tree_get_left(self, base):
+    def treeGetLeft(self, base):
         """
         Get the left child of the base node.
         :param base: The base node to get the left child from.
@@ -103,10 +87,26 @@ class NodeBinaryTree:
         """
         return base.left
 
-    def tree_get_right(self, base):
+    def treeSetLeft(self, base, item):
+        """
+        Modify the left child of the base node.
+        :param base: The base node to modify.
+        :param item: The data to be stored in the new left child.
+        """
+        base.left = TreeNode(item)
+
+    def treeGetRight(self, base):
         """
         Get the right child of the base node.
         :param base: The base node to get the right child from.
         :return: The right child of the base node.
         """
         return base.right
+
+    def treeSetRight(self, base, item):
+        """
+        Modify the right child of the base node.
+        :param base: The base node to modify.
+        :param item: The data to be stored in the new right child.
+        """
+        base.right = TreeNode(item)
