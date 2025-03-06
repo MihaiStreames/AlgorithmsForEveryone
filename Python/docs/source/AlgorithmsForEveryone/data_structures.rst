@@ -1,5 +1,5 @@
-AlgorithmsForEveryone.data\_structures package
-==============================================
+data\_structures
+================
 
 Submodules
 ----------

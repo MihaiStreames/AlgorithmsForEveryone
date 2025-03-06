@@ -1,7 +1,8 @@
-AlgorithmsForEveryone Package
-=============================
+AlgorithmsForEveryone
+=====================
 
 .. toctree::
    :maxdepth: 2
 
-   AlgorithmsForEveryone/index
+   AlgorithmsForEveryone/data_containers
+   AlgorithmsForEveryone/data_structures

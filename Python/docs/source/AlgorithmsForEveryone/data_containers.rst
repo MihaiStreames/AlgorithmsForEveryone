@@ -1,5 +1,5 @@
-AlgorithmsForEveryone.data\_containers package
-==============================================
+data\_containers
+================
 
 Submodules
 ----------
