@@ -1,40 +1,47 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, TypeVar, Generic
 
+T = TypeVar('T')
 
-class Heap(ABC):
+class Heap(ABC, Generic[T]):
     """
     Abstract base class for heap data structures.
     """
 
     @abstractmethod
-    def insert(self, value: int) -> None:
+    def insert(self, value: T) -> None:
         """Insert an element into the heap."""
         pass
 
     @abstractmethod
-    def delete(self) -> Optional[int]:
+    def delete(self) -> Optional[T]:
         """Remove and return the root element from the heap."""
         pass
 
     @abstractmethod
-    def heapify(self, idx: int) -> None:
-        """Restore the heap property starting from the given index downward."""
+    def peek(self) -> Optional[T]:
+        """Return the root element without removing it."""
         pass
 
     @abstractmethod
-    def swim_up(self, idx: int) -> None:
-        """Restore the heap property by moving the element at index `idx` upward."""
+    def is_empty(self) -> bool:
+        """Check if the heap is empty."""
         pass
 
     @abstractmethod
-    def swim_down(self, idx: int) -> None:
-        """Restore the heap property by moving the element at index `idx` downward."""
+    def size(self) -> int:
+        """Return the number of elements in the heap."""
         pass
 
     @classmethod
     @abstractmethod
-    def heap_sort(cls, array: List[int]) -> List[int]:
+    def heapify(cls, array: List[T]) -> 'Heap[T]':
+        """Create a heap from an array."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def heap_sort(cls, array: List[T]) -> List[T]:
         """Sort an array using heap sort algorithm."""
         pass
 

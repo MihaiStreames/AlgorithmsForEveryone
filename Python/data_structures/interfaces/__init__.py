@@ -1,3 +1,6 @@
-from data_structures.interfaces.heaps.heap import Heap
+from .heap import Heap
+from .stack import Stack
+from .queue import Queue
+from .deque import Deque
 
-__all__ = ['Heap']
+__all__ = ['Heap', 'Stack', 'Queue', 'Deque']
