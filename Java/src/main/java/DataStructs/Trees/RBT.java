@@ -2,26 +2,34 @@ package DataStructs.Trees;
 
 import DataStructs.Data.RBTreeNode;
 
-public class RBT {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RBT<T extends Comparable<T>> {
     private static final boolean RED = true;
     private static final boolean BLACK = false;
 
-    private RBTreeNode root;
+    private RBTreeNode<T> root;
 
-    private boolean isRed(RBTreeNode node) {
+    private boolean isRed(RBTreeNode<T> node) {
         return node != null && node.color == RED;
     }
 
-    public RBTreeNode getRoot() {
+    public RBTreeNode<T> getRoot() {
         return root;
     }
 
-    public void setRoot(RBTreeNode root) {
+    public void setRoot(RBTreeNode<T> root) {
         this.root = root;
     }
 
-    private RBTreeNode rotateLeft(RBTreeNode h) {
-        RBTreeNode x = h.right;
+    private int getHeight(RBTreeNode<T> node) {
+        if (node == null) return 0;
+        return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+    }
+
+    private RBTreeNode<T> rotateLeft(RBTreeNode<T> h) {
+        RBTreeNode<T> x = h.right;
         h.right = x.left;
         x.left = h;
         x.color = h.color;
@@ -29,8 +37,8 @@ public class RBT {
         return x;
     }
 
-    private RBTreeNode rotateRight(RBTreeNode h) {
-        RBTreeNode x = h.left;
+    private RBTreeNode<T> rotateRight(RBTreeNode<T> h) {
+        RBTreeNode<T> x = h.left;
         h.left = x.right;
         x.right = h;
         x.color = h.color;
@@ -38,26 +46,28 @@ public class RBT {
         return x;
     }
 
-    private void flipColors(RBTreeNode h) {
+    private void flipColors(RBTreeNode<T> h) {
         h.color = RED;
         if (h.left != null) h.left.color = BLACK;
         if (h.right != null) h.right.color = BLACK;
     }
 
-    public void insert(int key) {
+    public void insert(T key) {
         root = insert(root, key);
         if (root != null) {
             root.color = BLACK;
         }
     }
 
-    private RBTreeNode insert(RBTreeNode h, int key) {
-        if (h == null) return new RBTreeNode(key);
+    private RBTreeNode<T> insert(RBTreeNode<T> h, T key) {
+        if (h == null) return new RBTreeNode<>(key);
 
-        if (key < h.key)
+        int cmp = key.compareTo(h.key);
+        if (cmp < 0) {
             h.left = insert(h.left, key);
-        else if (key > h.key)
+        } else if (cmp > 0) {
             h.right = insert(h.right, key);
+        }
         // Duplicate keys are not inserted
 
         // Fix-up any right-leaning links
@@ -71,16 +81,51 @@ public class RBT {
         return h;
     }
 
-    public boolean search(int key) {
-        RBTreeNode current = root;
+    public boolean search(T key) {
+        RBTreeNode<T> current = root;
         while (current != null) {
-            if (key < current.key)
+            int cmp = key.compareTo(current.key);
+            if (cmp < 0)
                 current = current.left;
-            else if (key > current.key)
+            else if (cmp > 0)
                 current = current.right;
             else
                 return true;
         }
         return false;
+    }
+
+    public void printTree() {
+        int height = getHeight(root);
+        if (height == 0) {
+            System.out.println("(empty tree)");
+            return;
+        }
+        int maxWidth = (int) Math.pow(2, height) * 2;
+        List<RBTreeNode<T>> currentLevel = new ArrayList<>();
+        currentLevel.add(root);
+        for (int level = 0; level < height; level++) {
+            StringBuilder line = new StringBuilder();
+            int gap = maxWidth / ((int) Math.pow(2, level) + 1);
+            for (RBTreeNode<T> node : currentLevel) {
+                String nodeStr = (node == null)
+                        ? " "
+                        : node.key + "(" + (node.color ? "R" : "B") + ")";
+                line.append(String.format("%" + gap + "s", nodeStr));
+            }
+            System.out.println(line.toString());
+
+            List<RBTreeNode<T>> nextLevel = new ArrayList<>();
+            for (RBTreeNode<T> node : currentLevel) {
+                if (node != null) {
+                    nextLevel.add(node.left);
+                    nextLevel.add(node.right);
+                } else {
+                    nextLevel.add(null);
+                    nextLevel.add(null);
+                }
+            }
+            currentLevel = nextLevel;
+        }
     }
 }

@@ -1,11 +1,11 @@
 package DataStructs.Data;
 
-public class TreeNode {
-    public final int key;
-    public TreeNode left;
-    public TreeNode right;
+public class TreeNode<T extends Comparable<T>> {
+    public final T key;
+    public TreeNode<T> left;
+    public TreeNode<T> right;
 
-    public TreeNode(int key) {
+    public TreeNode(T key) {
         this.key = key;
     }
 }

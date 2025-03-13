@@ -7,7 +7,7 @@ public class Exercise5_2 {
      * Checks that no node is connected to two successive red links
      * and that there is no right-leaning red link.
      */
-    public static boolean is23(RBTreeNode x) {
+    public static <T extends Comparable<T>> boolean is23(RBTreeNode<T> x) {
         if (x == null) return true;
         if (x.right != null && x.right.color) return false;
         if (x.color && x.left != null && x.left.color) return false;
@@ -18,7 +18,7 @@ public class Exercise5_2 {
      * Calculates the black height of a path from the root to a leaf.
      * Returns -1 if the heights are different in between the subtrees.
      */
-    private static int blackHeight(RBTreeNode x) {
+    private static <T extends Comparable<T>> int blackHeight(RBTreeNode<T> x) {
         if (x == null) return 0;
         int leftBlack = blackHeight(x.left);
         int rightBlack = blackHeight(x.right);
@@ -30,7 +30,7 @@ public class Exercise5_2 {
     /**
      * Verifies that all paths from the root to a leaf have the same black height.
      */
-    public static boolean isBalanced(RBTreeNode root) {
+    public static <T extends Comparable<T>> boolean isBalanced(RBTreeNode<T> root) {
         return blackHeight(root) != -1;
     }
 
@@ -39,9 +39,10 @@ public class Exercise5_2 {
      * that for each node, all the nodes of the left subtree are less
      * than the node and all the nodes of the right subtree are greater.
      */
-    public static boolean isBST(RBTreeNode x, int min, int max) {
+    public static <T extends Comparable<T>> boolean isBST(RBTreeNode<T> x, T min, T max) {
         if (x == null) return true;
-        if (x.key <= min || x.key >= max) return false;
+        if (min != null && x.key.compareTo(min) <= 0) return false;
+        if (max != null && x.key.compareTo(max) >= 0) return false;
         return isBST(x.left, min, x.key) && isBST(x.right, x.key, max);
     }
 
@@ -50,7 +51,7 @@ public class Exercise5_2 {
      * red-black properties: no red link to the right,
      * no two successive red links, and black height balance.
      */
-    public static boolean isRedBlackBST(RBTreeNode root) {
-        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && is23(root) && isBalanced(root);
+    public static <T extends Comparable<T>> boolean isRedBlackBST(RBTreeNode<T> root) {
+        return isBST(root, null, null) && is23(root) && isBalanced(root);
     }
 }
