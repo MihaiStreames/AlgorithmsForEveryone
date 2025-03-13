@@ -1,10 +1,10 @@
-package DataStructs.Arrays;
+package DataStructs.Lists;
 
-public class Array {
+public class LinkedList {
     private final int[] a;
     private final int n;
 
-    public Array(int[] a) {
+    public LinkedList(int[] a) {
         this.a = a;
         n = a.length;
     }

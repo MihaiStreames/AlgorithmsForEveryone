@@ -1,9 +1,9 @@
 package TP3;
 
-import DataStructs.Arrays.Array;
+import DataStructs.Lists.LinkedList;
 
 public class Exercise3_4 {
-    public static Array mergeThreeSortedArrays(Array a, Array b, Array c) {
+    public static LinkedList mergeThreeSortedArrays(LinkedList a, LinkedList b, LinkedList c) {
         int n = a.length();
         int[] d = new int[3 * n];
         int i = 0, j = 0, k = 0, idx = 0;
@@ -21,14 +21,14 @@ public class Exercise3_4 {
                 d[idx++] = c.get(k++);
             }
         }
-        return new Array(d);
+        return new LinkedList(d);
     }
 
     public static void main(String[] args) {
-        Array a = new Array(new int[]{1, 3, 5});
-        Array b = new Array(new int[]{2, 4, 6});
-        Array c = new Array(new int[]{0, 7, 8});
-        Array d = mergeThreeSortedArrays(a, b, c);
+        LinkedList a = new LinkedList(new int[]{1, 3, 5});
+        LinkedList b = new LinkedList(new int[]{2, 4, 6});
+        LinkedList c = new LinkedList(new int[]{0, 7, 8});
+        LinkedList d = mergeThreeSortedArrays(a, b, c);
         d.print(); // 0 1 2 3 4 5 6 7 8
     }
 }
