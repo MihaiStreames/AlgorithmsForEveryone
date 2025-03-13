@@ -1,7 +1,6 @@
 package TP5;
 
 import DataStructs.Data.RBTreeNode;
-import DataStructs.Trees.RBT;
 
 public class Exercise5_2 {
     /**
@@ -51,12 +50,7 @@ public class Exercise5_2 {
      * red-black properties: no red link to the right,
      * no two successive red links, and black height balance.
      */
-    public static boolean isRedBlackBST(RBT tree) {
-        RBTreeNode root = tree.getRoot();
-        if (root == null) return true;
-        if (!isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) return false;
-        if (!is23(root)) return false;
-        if (!isBalanced(root)) return false;
-        return true;
+    public static boolean isRedBlackBST(RBTreeNode root) {
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && is23(root) && isBalanced(root);
     }
 }

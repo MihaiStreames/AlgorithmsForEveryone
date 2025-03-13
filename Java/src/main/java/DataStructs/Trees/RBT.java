@@ -16,6 +16,10 @@ public class RBT {
         return root;
     }
 
+    public void setRoot(RBTreeNode root) {
+        this.root = root;
+    }
+
     private RBTreeNode rotateLeft(RBTreeNode h) {
         RBTreeNode x = h.right;
         h.right = x.left;
