@@ -1,41 +1,43 @@
-package org.sincos.afe.algorithms.sorting;
+package io.github.mihaistreames.afe.algorithms.sorting;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 /**
- * Implementation of the Selection Sort algorithm.
+ * Implementation of the Bubble Sort algorithm.
  * <p>
- * Selection Sort is a simple sorting algorithm that divides the input list into two parts:
- * a sorted portion at the left end and an unsorted portion at the right end. It repeatedly
- * selects the smallest (or largest) element from the unsorted portion and moves it to the
- * sorted portion.
+ * Bubble Sort is a simple sorting algorithm that repeatedly steps through the list,
+ * compares adjacent elements and swaps them if they are in the wrong order. The pass
+ * through the list is repeated until the list is sorted. Despite its simplicity,
+ * it is rarely used in practice due to its poor time complexity.
  * </p>
  * <p>
- * <strong>Time Complexity:</strong> O(n²) in all cases<br>
+ * <strong>Time Complexity:</strong> O(n²) worst and average case, O(n) best case<br>
  * <strong>Space Complexity:</strong> O(1) additional space<br>
- * <strong>Stability:</strong> Not stable - may change relative order of equal elements<br>
- * <strong>In-place:</strong> Yes - sorts in-place with constant extra space
+ * <strong>Stability:</strong> Stable - maintains relative order of equal elements<br>
+ * <strong>In-place:</strong> Yes - sorts in-place with constant extra space<br>
+ * <strong>Note:</strong> Educational purposes only - inefficient for large datasets
  * </p>
  *
  * @author Sincos Team
  * @version 1.0.0
  * @since 1.0.0
  */
-public final class SelectionSort {
+public final class BubbleSort {
 
-    private SelectionSort() {
+    private BubbleSort() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
 
     // ========== PUBLIC API - List Operations ==========
 
     /**
-     * Sorts the list in ascending natural order using selection sort.
+     * Sorts the list in ascending natural order using bubble sort.
      * <p>
-     * The list elements must implement {@link Comparable}. The sort is not stable
-     * and performs O(n²) comparisons but only O(n) swaps.
+     * The list elements must implement {@link Comparable}. The sort is stable
+     * but very inefficient for large datasets. Recommended for educational
+     * purposes or very small datasets only.
      * </p>
      *
      * @param <T>  the type of elements, must extend {@link Comparable}
@@ -48,9 +50,10 @@ public final class SelectionSort {
     }
 
     /**
-     * Sorts the list using the provided comparator and selection sort.
+     * Sorts the list using the provided comparator and bubble sort.
      * <p>
-     * The sort is not stable and performs O(n²) comparisons but only O(n) swaps.
+     * The sort is stable but very inefficient for large datasets. Recommended
+     * for educational purposes or very small datasets only.
      * </p>
      *
      * @param <T>        the type of elements
@@ -68,17 +71,20 @@ public final class SelectionSort {
         }
 
         for (int i = 0; i < n - 1; i++) {
-            // Find the minimum element in the remaining unsorted array
-            int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                if (comparator.compare(list.get(j), list.get(minIndex)) < 0) {
-                    minIndex = j;
+            boolean swapped = false;
+
+            // Last i elements are already in place
+            for (int j = 0; j < n - i - 1; j++) {
+                // Swap if the element found is greater than the next element
+                if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
+                    Collections.swap(list, j, j + 1);
+                    swapped = true;
                 }
             }
 
-            // Swap the found minimum element with the first element
-            if (minIndex != i) {
-                Collections.swap(list, i, minIndex);
+            // If no two elements were swapped, then the array is sorted
+            if (!swapped) {
+                break;
             }
         }
     }
@@ -86,10 +92,11 @@ public final class SelectionSort {
     // ========== PUBLIC API - Array Operations ==========
 
     /**
-     * Sorts the array in ascending natural order using selection sort.
+     * Sorts the array in ascending natural order using bubble sort.
      * <p>
      * Convenience method that converts the array to a list and sorts it.
-     * Changes are reflected in the original array.
+     * Changes are reflected in the original array. Recommended for educational
+     * purposes or very small datasets only.
      * </p>
      *
      * @param <T>   the type of elements, must extend {@link Comparable}
@@ -103,10 +110,11 @@ public final class SelectionSort {
     }
 
     /**
-     * Sorts the array using the provided comparator and selection sort.
+     * Sorts the array using the provided comparator and bubble sort.
      * <p>
      * Convenience method that converts the array to a list and sorts it.
-     * Changes are reflected in the original array.
+     * Changes are reflected in the original array. Recommended for educational
+     * purposes or very small datasets only.
      * </p>
      *
      * @param <T>        the type of elements

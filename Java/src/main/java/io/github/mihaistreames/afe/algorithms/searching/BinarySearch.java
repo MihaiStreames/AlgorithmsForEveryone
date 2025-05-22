@@ -1,4 +1,4 @@
-package org.sincos.afe.algorithms.searching;
+package io.github.mihaistreames.afe.algorithms.searching;
 
 import org.jetbrains.annotations.NotNull;
 

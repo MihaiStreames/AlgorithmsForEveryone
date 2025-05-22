@@ -1,8 +1,8 @@
-package org.sincos.afe.algorithms;
+package io.github.mihaistreames.afe.algorithms;
 
+import io.github.mihaistreames.afe.algorithms.searching.BinarySearch;
+import io.github.mihaistreames.afe.algorithms.sorting.*;
 import org.jetbrains.annotations.NotNull;
-import org.sincos.afe.algorithms.searching.BinarySearch;
-import org.sincos.afe.algorithms.sorting.*;
 
 import java.util.Comparator;
 import java.util.List;

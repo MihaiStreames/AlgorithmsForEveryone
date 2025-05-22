@@ -1,4 +1,4 @@
-package org.sincos.afe.algorithms.sorting;
+package io.github.mihaistreames.afe.algorithms.sorting;
 
 import org.jetbrains.annotations.NotNull;
 

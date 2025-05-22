@@ -1,4 +1,4 @@
-package org.sincos.afe.algorithms.sorting;
+package io.github.mihaistreames.afe.algorithms.sorting;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Implementation of the Insertion Sort algorithm.
+ * Implementation of the Shell Sort algorithm.
  * <p>
- * Insertion Sort is a simple sorting algorithm that builds the final sorted array one item
- * at a time. It is efficient for small datasets and nearly sorted arrays, and is often used
- * as a subroutine in more complex algorithms like QuickSort for small partitions.
+ * Shell Sort is an in-place comparison sort that generalizes insertion sort by allowing
+ * the exchange of items that are far apart. It starts by sorting pairs of elements far
+ * apart from each other, then progressively reducing the gap between elements to be compared.
  * </p>
  * <p>
- * <strong>Time Complexity:</strong> O(n²) worst case, O(n) best case (nearly sorted)<br>
+ * <strong>Time Complexity:</strong> O(n log²n) to O(n^1.5) depending on gap sequence<br>
  * <strong>Space Complexity:</strong> O(1) additional space<br>
- * <strong>Stability:</strong> Stable - maintains relative order of equal elements<br>
+ * <strong>Stability:</strong> Not stable - may change relative order of equal elements<br>
  * <strong>In-place:</strong> Yes - sorts in-place with constant extra space
  * </p>
  *
@@ -25,19 +25,19 @@ import java.util.Objects;
  * @version 1.0.0
  * @since 1.0.0
  */
-public final class InsertionSort {
+public final class ShellSort {
 
-    private InsertionSort() {
+    private ShellSort() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
 
     // ========== PUBLIC API - List Operations ==========
 
     /**
-     * Sorts the list in ascending natural order using insertion sort.
+     * Sorts the list in ascending natural order using shell sort.
      * <p>
-     * The list elements must implement {@link Comparable}. The sort is stable
-     * and performs very well on small or nearly sorted datasets.
+     * The list elements must implement {@link Comparable}. Uses Knuth's gap sequence
+     * (3k + 1) for optimal performance characteristics.
      * </p>
      *
      * @param <T>  the type of elements, must extend {@link Comparable}
@@ -50,9 +50,9 @@ public final class InsertionSort {
     }
 
     /**
-     * Sorts the list using the provided comparator and insertion sort.
+     * Sorts the list using the provided comparator and shell sort.
      * <p>
-     * The sort is stable and performs very well on small or nearly sorted datasets.
+     * Uses Knuth's gap sequence (3k + 1) for optimal performance characteristics.
      * </p>
      *
      * @param <T>        the type of elements
@@ -69,25 +69,37 @@ public final class InsertionSort {
             return;
         }
 
-        for (int i = 1; i < n; i++) {
-            final T key = list.get(i);
-            int j = i - 1;
+        // Start with a big gap, then reduce the gap using Knuth's sequence
+        int gap = 1;
+        while (gap < n / 3) {
+            gap = 3 * gap + 1; // Knuth's gap sequence: 1, 4, 13, 40, 121, ...
+        }
 
-            // Move elements greater than key one position ahead
-            while (j >= 0 && comparator.compare(list.get(j), key) > 0) {
-                list.set(j + 1, list.get(j));
-                j--;
+        while (gap >= 1) {
+            // Do a gapped insertion sort for this gap size
+            for (int i = gap; i < n; i++) {
+                final T key = list.get(i);
+                int j = i;
+
+                // Shift earlier gap-sorted elements up until the correct location for key is found
+                while (j >= gap && comparator.compare(list.get(j - gap), key) > 0) {
+                    list.set(j, list.get(j - gap));
+                    j -= gap;
+                }
+
+                // Put key in its correct location
+                list.set(j, key);
             }
 
-            // Insert key at its correct position
-            list.set(j + 1, key);
+            // Reduce gap for next iteration
+            gap = gap / 3;
         }
     }
 
     // ========== PUBLIC API - Array Operations ==========
 
     /**
-     * Sorts the array in ascending natural order using insertion sort.
+     * Sorts the array in ascending natural order using shell sort.
      * <p>
      * Convenience method that converts the array to a list and sorts it.
      * Changes are reflected in the original array.
@@ -104,7 +116,7 @@ public final class InsertionSort {
     }
 
     /**
-     * Sorts the array using the provided comparator and insertion sort.
+     * Sorts the array using the provided comparator and shell sort.
      * <p>
      * Convenience method that converts the array to a list and sorts it.
      * Changes are reflected in the original array.

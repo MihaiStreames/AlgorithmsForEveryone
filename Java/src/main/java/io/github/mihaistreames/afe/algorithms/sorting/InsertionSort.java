@@ -1,43 +1,43 @@
-package org.sincos.afe.algorithms.sorting;
+package io.github.mihaistreames.afe.algorithms.sorting;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
 /**
- * Implementation of the Bubble Sort algorithm.
+ * Implementation of the Insertion Sort algorithm.
  * <p>
- * Bubble Sort is a simple sorting algorithm that repeatedly steps through the list,
- * compares adjacent elements and swaps them if they are in the wrong order. The pass
- * through the list is repeated until the list is sorted. Despite its simplicity,
- * it is rarely used in practice due to its poor time complexity.
+ * Insertion Sort is a simple sorting algorithm that builds the final sorted array one item
+ * at a time. It is efficient for small datasets and nearly sorted arrays, and is often used
+ * as a subroutine in more complex algorithms like QuickSort for small partitions.
  * </p>
  * <p>
- * <strong>Time Complexity:</strong> O(n²) worst and average case, O(n) best case<br>
+ * <strong>Time Complexity:</strong> O(n²) worst case, O(n) best case (nearly sorted)<br>
  * <strong>Space Complexity:</strong> O(1) additional space<br>
  * <strong>Stability:</strong> Stable - maintains relative order of equal elements<br>
- * <strong>In-place:</strong> Yes - sorts in-place with constant extra space<br>
- * <strong>Note:</strong> Educational purposes only - inefficient for large datasets
+ * <strong>In-place:</strong> Yes - sorts in-place with constant extra space
  * </p>
  *
  * @author Sincos Team
  * @version 1.0.0
  * @since 1.0.0
  */
-public final class BubbleSort {
+public final class InsertionSort {
 
-    private BubbleSort() {
+    private InsertionSort() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
 
     // ========== PUBLIC API - List Operations ==========
 
     /**
-     * Sorts the list in ascending natural order using bubble sort.
+     * Sorts the list in ascending natural order using insertion sort.
      * <p>
      * The list elements must implement {@link Comparable}. The sort is stable
-     * but very inefficient for large datasets. Recommended for educational
-     * purposes or very small datasets only.
+     * and performs very well on small or nearly sorted datasets.
      * </p>
      *
      * @param <T>  the type of elements, must extend {@link Comparable}
@@ -50,10 +50,9 @@ public final class BubbleSort {
     }
 
     /**
-     * Sorts the list using the provided comparator and bubble sort.
+     * Sorts the list using the provided comparator and insertion sort.
      * <p>
-     * The sort is stable but very inefficient for large datasets. Recommended
-     * for educational purposes or very small datasets only.
+     * The sort is stable and performs very well on small or nearly sorted datasets.
      * </p>
      *
      * @param <T>        the type of elements
@@ -70,33 +69,28 @@ public final class BubbleSort {
             return;
         }
 
-        for (int i = 0; i < n - 1; i++) {
-            boolean swapped = false;
+        for (int i = 1; i < n; i++) {
+            final T key = list.get(i);
+            int j = i - 1;
 
-            // Last i elements are already in place
-            for (int j = 0; j < n - i - 1; j++) {
-                // Swap if the element found is greater than the next element
-                if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
-                    Collections.swap(list, j, j + 1);
-                    swapped = true;
-                }
+            // Move elements greater than key one position ahead
+            while (j >= 0 && comparator.compare(list.get(j), key) > 0) {
+                list.set(j + 1, list.get(j));
+                j--;
             }
 
-            // If no two elements were swapped, then the array is sorted
-            if (!swapped) {
-                break;
-            }
+            // Insert key at its correct position
+            list.set(j + 1, key);
         }
     }
 
     // ========== PUBLIC API - Array Operations ==========
 
     /**
-     * Sorts the array in ascending natural order using bubble sort.
+     * Sorts the array in ascending natural order using insertion sort.
      * <p>
      * Convenience method that converts the array to a list and sorts it.
-     * Changes are reflected in the original array. Recommended for educational
-     * purposes or very small datasets only.
+     * Changes are reflected in the original array.
      * </p>
      *
      * @param <T>   the type of elements, must extend {@link Comparable}
@@ -110,11 +104,10 @@ public final class BubbleSort {
     }
 
     /**
-     * Sorts the array using the provided comparator and bubble sort.
+     * Sorts the array using the provided comparator and insertion sort.
      * <p>
      * Convenience method that converts the array to a list and sorts it.
-     * Changes are reflected in the original array. Recommended for educational
-     * purposes or very small datasets only.
+     * Changes are reflected in the original array.
      * </p>
      *
      * @param <T>        the type of elements
