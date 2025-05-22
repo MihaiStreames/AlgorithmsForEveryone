@@ -1,4 +1,4 @@
-package org.sincos.afe.searching;
+package org.sincos.afe.algorithms.searching;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package org.sincos.afe.sorting;
+package org.sincos.afe.algorithms.sorting;
 
 import org.jetbrains.annotations.NotNull;
 
