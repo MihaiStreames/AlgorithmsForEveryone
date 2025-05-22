@@ -24,9 +24,6 @@ import java.util.*;
  */
 public final class QuickSort {
 
-    /**
-     * Private constructor to prevent instantiation of utility class.
-     */
     private QuickSort() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
@@ -34,18 +31,15 @@ public final class QuickSort {
     // ========== PUBLIC API - List Operations ==========
 
     /**
-     * Sorts the specified list in ascending natural order using the quicksort algorithm.
+     * Sorts the list in ascending natural order using quicksort.
      * <p>
-     * The list elements must implement the {@link Comparable} interface.
-     * The list is shuffled before sorting to avoid worst-case O(n²) performance
-     * on already sorted or reverse-sorted inputs.
+     * The list elements must implement {@link Comparable}. The list is shuffled
+     * before sorting to avoid worst-case O(n²) performance on already sorted inputs.
      * </p>
      *
-     * @param <T>  the type of elements in the list, must extend {@link Comparable}
-     * @param list the list to sort; must not be null
+     * @param <T>  the type of elements, must extend {@link Comparable}
+     * @param list the list to sort
      * @throws NullPointerException if the list is null
-     * @throws ClassCastException   if elements cannot be compared to one another
-     * @see #sort(List, Comparator)
      */
     public static <T extends Comparable<T>> void sort(@NotNull final List<T> list) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -53,17 +47,16 @@ public final class QuickSort {
     }
 
     /**
-     * Sorts the specified list using the provided comparator and the quicksort algorithm.
+     * Sorts the list using the provided comparator and quicksort.
      * <p>
      * The list is shuffled before sorting to avoid worst-case O(n²) performance
-     * on already sorted or reverse-sorted inputs.
+     * on already sorted inputs.
      * </p>
      *
-     * @param <T>        the type of elements in the list
-     * @param list       the list to sort; must not be null
-     * @param comparator the comparator to determine element order; must not be null
+     * @param <T>        the type of elements
+     * @param list       the list to sort
+     * @param comparator the comparator to determine element order
      * @throws NullPointerException if the list or comparator is null
-     * @see #sort(List)
      */
     public static <T> void sort(@NotNull final List<T> list, @NotNull final Comparator<T> comparator) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -81,18 +74,15 @@ public final class QuickSort {
     // ========== PUBLIC API - Array Operations ==========
 
     /**
-     * Sorts the specified array in ascending natural order using the quicksort algorithm.
+     * Sorts the array in ascending natural order using quicksort.
      * <p>
-     * This is a convenience method that converts the array to a list, sorts it, and
-     * the changes are reflected in the original array.
+     * Convenience method that converts the array to a list and sorts it.
+     * Changes are reflected in the original array.
      * </p>
      *
-     * @param <T>   the type of elements in the array, must extend {@link Comparable}
-     * @param array the array to sort; must not be null
+     * @param <T>   the type of elements, must extend {@link Comparable}
+     * @param array the array to sort
      * @throws NullPointerException if the array is null
-     * @throws ClassCastException   if elements cannot be compared to one another
-     * @see #sort(Object[], Comparator)
-     * @see #sort(List)
      */
     public static <T extends Comparable<T>> void sort(@NotNull final T[] array) {
         Objects.requireNonNull(array, "Array cannot be null");
@@ -101,18 +91,16 @@ public final class QuickSort {
     }
 
     /**
-     * Sorts the specified array using the provided comparator and the quicksort algorithm.
+     * Sorts the array using the provided comparator and quicksort.
      * <p>
-     * This is a convenience method that converts the array to a list, sorts it, and
-     * the changes are reflected in the original array.
+     * Convenience method that converts the array to a list and sorts it.
+     * Changes are reflected in the original array.
      * </p>
      *
-     * @param <T>        the type of elements in the array
-     * @param array      the array to sort; must not be null
-     * @param comparator the comparator to determine element order; must not be null
+     * @param <T>        the type of elements
+     * @param array      the array to sort
+     * @param comparator the comparator to determine element order
      * @throws NullPointerException if the array or comparator is null
-     * @see #sort(Object[])
-     * @see #sort(List, Comparator)
      */
     public static <T> void sort(@NotNull final T[] array, @NotNull final Comparator<T> comparator) {
         Objects.requireNonNull(array, "Array cannot be null");
@@ -125,12 +113,6 @@ public final class QuickSort {
 
     /**
      * Recursively sorts the specified portion of the list using quicksort.
-     *
-     * @param <T>        the type of elements in the list
-     * @param list       the list to sort
-     * @param low        the starting index (inclusive)
-     * @param high       the ending index (inclusive)
-     * @param comparator the comparator for element comparison
      */
     private static <T> void quickSortRecursive(@NotNull final List<T> list,
                                                final int low,
@@ -152,11 +134,6 @@ public final class QuickSort {
      * and all elements greater than or equal to the pivot are to its right.
      * </p>
      *
-     * @param <T>        the type of elements in the list
-     * @param list       the list to partition
-     * @param low        the starting index of the partition range
-     * @param high       the ending index of the partition range
-     * @param comparator the comparator for element comparison
      * @return the final position of the pivot element
      */
     private static <T> int partition(@NotNull final List<T> list,

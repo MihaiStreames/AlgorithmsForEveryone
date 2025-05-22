@@ -11,7 +11,7 @@ import java.util.*;
  * into two halves, recursively sorts both halves, and then merges the sorted halves.
  * </p>
  * <p>
- * <strong>Time Complexity:</strong> O(n log n) in all cases (best, average, worst)<br>
+ * <strong>Time Complexity:</strong> O(n log n) in all cases<br>
  * <strong>Space Complexity:</strong> O(n) auxiliary space<br>
  * <strong>Stability:</strong> Stable - maintains relative order of equal elements<br>
  * <strong>In-place:</strong> No - requires additional space
@@ -23,9 +23,6 @@ import java.util.*;
  */
 public final class MergeSort {
 
-    /**
-     * Private constructor to prevent instantiation of utility class.
-     */
     private MergeSort() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
@@ -33,18 +30,15 @@ public final class MergeSort {
     // ========== PUBLIC API - List Operations ==========
 
     /**
-     * Sorts the specified list in ascending natural order using the merge sort algorithm.
+     * Sorts the list in ascending natural order using merge sort.
      * <p>
-     * The list elements must implement the {@link Comparable} interface.
-     * The sort is stable and guaranteed to run in O(n log n) time.
+     * The list elements must implement {@link Comparable}. The sort is stable
+     * and guaranteed to run in O(n log n) time.
      * </p>
      *
-     * @param <T>  the type of elements in the list, must extend {@link Comparable}
-     * @param list the list to sort; must not be null
+     * @param <T>  the type of elements, must extend {@link Comparable}
+     * @param list the list to sort
      * @throws NullPointerException if the list is null
-     * @throws ClassCastException   if elements cannot be compared to one another
-     * @see #sort(List, Comparator)
-     * @see #sortIterative(List)
      */
     public static <T extends Comparable<T>> void sort(@NotNull final List<T> list) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -52,17 +46,15 @@ public final class MergeSort {
     }
 
     /**
-     * Sorts the specified list using the provided comparator and the merge sort algorithm.
+     * Sorts the list using the provided comparator and merge sort.
      * <p>
      * The sort is stable and guaranteed to run in O(n log n) time.
      * </p>
      *
-     * @param <T>        the type of elements in the list
-     * @param list       the list to sort; must not be null
-     * @param comparator the comparator to determine element order; must not be null
+     * @param <T>        the type of elements
+     * @param list       the list to sort
+     * @param comparator the comparator to determine element order
      * @throws NullPointerException if the list or comparator is null
-     * @see #sort(List)
-     * @see #sortIterative(List, Comparator)
      */
     public static <T> void sort(@NotNull final List<T> list, @NotNull final Comparator<T> comparator) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -77,18 +69,15 @@ public final class MergeSort {
     }
 
     /**
-     * Sorts the specified list in ascending natural order using the iterative merge sort algorithm.
+     * Sorts the list using iterative merge sort with natural ordering.
      * <p>
-     * This bottom-up approach eliminates recursion and may be preferable for very large datasets
-     * to avoid potential stack overflow issues.
+     * This bottom-up approach eliminates recursion and prevents stack overflow
+     * issues for very large datasets.
      * </p>
      *
-     * @param <T>  the type of elements in the list, must extend {@link Comparable}
-     * @param list the list to sort; must not be null
+     * @param <T>  the type of elements, must extend {@link Comparable}
+     * @param list the list to sort
      * @throws NullPointerException if the list is null
-     * @throws ClassCastException   if elements cannot be compared to one another
-     * @see #sort(List)
-     * @see #sortIterative(List, Comparator)
      */
     public static <T extends Comparable<T>> void sortIterative(@NotNull final List<T> list) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -96,18 +85,16 @@ public final class MergeSort {
     }
 
     /**
-     * Sorts the specified list using the provided comparator and the iterative merge sort algorithm.
+     * Sorts the list using iterative merge sort with a custom comparator.
      * <p>
-     * This bottom-up approach eliminates recursion and may be preferable for very large datasets
-     * to avoid potential stack overflow issues.
+     * This bottom-up approach eliminates recursion and prevents stack overflow
+     * issues for very large datasets.
      * </p>
      *
-     * @param <T>        the type of elements in the list
-     * @param list       the list to sort; must not be null
-     * @param comparator the comparator to determine element order; must not be null
+     * @param <T>        the type of elements
+     * @param list       the list to sort
+     * @param comparator the comparator to determine element order
      * @throws NullPointerException if the list or comparator is null
-     * @see #sortIterative(List)
-     * @see #sort(List, Comparator)
      */
     public static <T> void sortIterative(@NotNull final List<T> list, @NotNull final Comparator<T> comparator) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -132,18 +119,15 @@ public final class MergeSort {
     // ========== PUBLIC API - Array Operations ==========
 
     /**
-     * Sorts the specified array in ascending natural order using the merge sort algorithm.
+     * Sorts the array in ascending natural order using merge sort.
      * <p>
-     * This is a convenience method that converts the array to a list, sorts it, and
-     * the changes are reflected in the original array.
+     * Convenience method that converts the array to a list and sorts it.
+     * Changes are reflected in the original array.
      * </p>
      *
-     * @param <T>   the type of elements in the array, must extend {@link Comparable}
-     * @param array the array to sort; must not be null
+     * @param <T>   the type of elements, must extend {@link Comparable}
+     * @param array the array to sort
      * @throws NullPointerException if the array is null
-     * @throws ClassCastException   if elements cannot be compared to one another
-     * @see #sort(Object[], Comparator)
-     * @see #sort(List)
      */
     public static <T extends Comparable<T>> void sort(@NotNull final T[] array) {
         Objects.requireNonNull(array, "Array cannot be null");
@@ -152,18 +136,16 @@ public final class MergeSort {
     }
 
     /**
-     * Sorts the specified array using the provided comparator and the merge sort algorithm.
+     * Sorts the array using the provided comparator and merge sort.
      * <p>
-     * This is a convenience method that converts the array to a list, sorts it, and
-     * the changes are reflected in the original array.
+     * Convenience method that converts the array to a list and sorts it.
+     * Changes are reflected in the original array.
      * </p>
      *
-     * @param <T>        the type of elements in the array
-     * @param array      the array to sort; must not be null
-     * @param comparator the comparator to determine element order; must not be null
+     * @param <T>        the type of elements
+     * @param array      the array to sort
+     * @param comparator the comparator to determine element order
      * @throws NullPointerException if the array or comparator is null
-     * @see #sort(Object[])
-     * @see #sort(List, Comparator)
      */
     public static <T> void sort(@NotNull final T[] array, @NotNull final Comparator<T> comparator) {
         Objects.requireNonNull(array, "Array cannot be null");
@@ -176,13 +158,6 @@ public final class MergeSort {
 
     /**
      * Recursively sorts the specified portion of the list using merge sort.
-     *
-     * @param <T>        the type of elements in the list
-     * @param list       the list to sort
-     * @param auxiliary  the auxiliary list used for merging
-     * @param low        the starting index (inclusive)
-     * @param high       the ending index (inclusive)
-     * @param comparator the comparator for element comparison
      */
     private static <T> void mergeSortRecursive(@NotNull final List<T> list,
                                                @NotNull final List<T> auxiliary,
@@ -204,14 +179,6 @@ public final class MergeSort {
      * <p>
      * Merges list[low..mid] with list[mid+1..high] using the auxiliary array.
      * </p>
-     *
-     * @param <T>        the type of elements in the list
-     * @param list       the list containing the sublists to merge
-     * @param auxiliary  the auxiliary list used for temporary storage
-     * @param low        the starting index of the first sublist
-     * @param mid        the ending index of the first sublist
-     * @param high       the ending index of the second sublist
-     * @param comparator the comparator for element comparison
      */
     private static <T> void merge(@NotNull final List<T> list,
                                   @NotNull final List<T> auxiliary,

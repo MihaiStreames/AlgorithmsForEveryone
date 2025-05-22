@@ -16,9 +16,8 @@ import java.util.Objects;
  * </p>
  * <p>
  * <strong>Time Complexity:</strong> O(log n)<br>
- * <strong>Space Complexity:</strong> O(1) iterative implementation<br>
- * <strong>Prerequisite:</strong> The collection must be sorted in ascending order<br>
- * <strong>Return Value:</strong> Index of found element, or -1 if not found
+ * <strong>Space Complexity:</strong> O(1)<br>
+ * <strong>Prerequisite:</strong> The collection must be sorted in ascending order
  * </p>
  *
  * @author Sincos Team
@@ -27,9 +26,6 @@ import java.util.Objects;
  */
 public final class BinarySearch {
 
-    /**
-     * Private constructor to prevent instantiation of utility class.
-     */
     private BinarySearch() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
@@ -37,20 +33,17 @@ public final class BinarySearch {
     // ========== PUBLIC API - List Operations ==========
 
     /**
-     * Searches for the specified element in the sorted list using binary search.
+     * Searches for an element in the sorted list using binary search.
      * <p>
-     * The list elements must implement the {@link Comparable} interface and the list
-     * must be sorted in ascending natural order. If the list is not sorted, the
-     * result is undefined.
+     * The list elements must implement {@link Comparable} and the list
+     * must be sorted in ascending natural order.
      * </p>
      *
-     * @param <T>  the type of elements in the list, must extend {@link Comparable}
-     * @param list the sorted list to search; must not be null
-     * @param key  the element to search for; may be null if T supports null values
+     * @param <T>  the type of elements, must extend {@link Comparable}
+     * @param list the sorted list to search
+     * @param key  the element to search for
      * @return the index of the element if found, or -1 if not found
      * @throws NullPointerException if the list is null
-     * @throws ClassCastException   if elements cannot be compared to the key
-     * @see #binarySearch(List, Object, Comparator)
      */
     public static <T extends Comparable<T>> int binarySearch(@NotNull final List<T> list, final T key) {
         Objects.requireNonNull(list, "List cannot be null");
@@ -58,19 +51,17 @@ public final class BinarySearch {
     }
 
     /**
-     * Searches for the specified element in the sorted list using binary search and a custom comparator.
+     * Searches for an element in the sorted list using binary search with a custom comparator.
      * <p>
-     * The list must be sorted according to the specified comparator. If the list is not sorted
-     * according to the comparator, the result is undefined.
+     * The list must be sorted according to the specified comparator.
      * </p>
      *
-     * @param <T>        the type of elements in the list
-     * @param list       the sorted list to search; must not be null
-     * @param key        the element to search for; may be null if comparator supports null values
-     * @param comparator the comparator that was used to sort the list; must not be null
+     * @param <T>        the type of elements
+     * @param list       the sorted list to search
+     * @param key        the element to search for
+     * @param comparator the comparator that was used to sort the list
      * @return the index of the element if found, or -1 if not found
      * @throws NullPointerException if the list or comparator is null
-     * @see #binarySearch(List, Object)
      */
     public static <T> int binarySearch(@NotNull final List<T> list,
                                        final T key,
@@ -83,21 +74,18 @@ public final class BinarySearch {
     // ========== PUBLIC API - Array Operations ==========
 
     /**
-     * Searches for the specified element in the sorted array using binary search.
+     * Searches for an element in the sorted array using binary search.
      * <p>
-     * This is a convenience method that converts the array to a list and performs the search.
-     * The array elements must implement the {@link Comparable} interface and the array
+     * Convenience method that converts the array to a list and performs the search.
+     * The array elements must implement {@link Comparable} and the array
      * must be sorted in ascending natural order.
      * </p>
      *
-     * @param <T>   the type of elements in the array, must extend {@link Comparable}
-     * @param array the sorted array to search; must not be null
-     * @param key   the element to search for; may be null if T supports null values
+     * @param <T>   the type of elements, must extend {@link Comparable}
+     * @param array the sorted array to search
+     * @param key   the element to search for
      * @return the index of the element if found, or -1 if not found
      * @throws NullPointerException if the array is null
-     * @throws ClassCastException   if elements cannot be compared to the key
-     * @see #binarySearch(Object[], Object, Comparator)
-     * @see #binarySearch(List, Object)
      */
     public static <T extends Comparable<T>> int binarySearch(@NotNull final T[] array, final T key) {
         Objects.requireNonNull(array, "Array cannot be null");
@@ -106,20 +94,18 @@ public final class BinarySearch {
     }
 
     /**
-     * Searches for the specified element in the sorted array using binary search and a custom comparator.
+     * Searches for an element in the sorted array using binary search with a custom comparator.
      * <p>
-     * This is a convenience method that converts the array to a list and performs the search.
+     * Convenience method that converts the array to a list and performs the search.
      * The array must be sorted according to the specified comparator.
      * </p>
      *
-     * @param <T>        the type of elements in the array
-     * @param array      the sorted array to search; must not be null
-     * @param key        the element to search for; may be null if comparator supports null values
-     * @param comparator the comparator that was used to sort the array; must not be null
+     * @param <T>        the type of elements
+     * @param array      the sorted array to search
+     * @param key        the element to search for
+     * @param comparator the comparator that was used to sort the array
      * @return the index of the element if found, or -1 if not found
      * @throws NullPointerException if the array or comparator is null
-     * @see #binarySearch(Object[], Object)
-     * @see #binarySearch(List, Object, Comparator)
      */
     public static <T> int binarySearch(@NotNull final T[] array,
                                        final T key,
@@ -134,15 +120,6 @@ public final class BinarySearch {
 
     /**
      * Core binary search implementation using iterative approach.
-     * <p>
-     * This method performs the actual binary search algorithm using the provided comparator.
-     * </p>
-     *
-     * @param <T>        the type of elements in the list
-     * @param list       the sorted list to search
-     * @param key        the element to search for
-     * @param comparator the comparator for element comparison
-     * @return the index of the element if found, or -1 if not found
      */
     private static <T> int search(@NotNull final List<T> list,
                                   final T key,
