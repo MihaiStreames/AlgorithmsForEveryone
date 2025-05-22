@@ -11,6 +11,57 @@ import java.util.Set;
 
 public class Exercise6_3 {
     /**
+     * Example usage
+     */
+    public static void main(String[] args) {
+        Exercise6_3 solution = new Exercise6_3();
+
+        // Example 1: 2-edge-connected graph (cycle with 3 vertices)
+        // A --- B
+        // |     |
+        // |     |
+        // C ----
+        Graph<String> graph1 = new Graph<>(false); // undirected graph
+        Vertex<String> a = graph1.addVertex("A");
+        Vertex<String> b = graph1.addVertex("B");
+        Vertex<String> c = graph1.addVertex("C");
+        graph1.addEdge(a, b);
+        graph1.addEdge(b, c);
+        graph1.addEdge(c, a);
+        System.out.println("Graph 1 is 2-edge-connected: " + solution.isTwoEdgeConnected(graph1));
+
+        // Example 2: Graph with a bridge
+        // D --- E --- F --- G
+        //           ↑
+        //         bridge
+        Graph<String> graph2 = new Graph<>(false); // undirected graph
+        Vertex<String> d = graph2.addVertex("D");
+        Vertex<String> e = graph2.addVertex("E");
+        Vertex<String> f = graph2.addVertex("F");
+        Vertex<String> g = graph2.addVertex("G");
+        graph2.addEdge(d, e);
+        graph2.addEdge(e, f); // this is a bridge
+        graph2.addEdge(f, g);
+        System.out.println("Graph 2 is 2-edge-connected: " + solution.isTwoEdgeConnected(graph2));
+
+        // Example 3: Another 2-edge-connected graph (a square)
+        // H --- I
+        // |     |
+        // |     |
+        // K --- J
+        Graph<String> graph3 = new Graph<>(false);
+        Vertex<String> h = graph3.addVertex("H");
+        Vertex<String> i = graph3.addVertex("I");
+        Vertex<String> j = graph3.addVertex("J");
+        Vertex<String> k = graph3.addVertex("K");
+        graph3.addEdge(h, i);
+        graph3.addEdge(i, j);
+        graph3.addEdge(j, k);
+        graph3.addEdge(k, h);
+        System.out.println("Graph 3 is 2-edge-connected: " + solution.isTwoEdgeConnected(graph3));
+    }
+
+    /**
      * Determines if a graph is 2-edge-connected (has no bridges)
      * A 2-edge-connected graph remains connected even if any single edge is removed
      *
@@ -125,56 +176,5 @@ public class Exercise6_3 {
         }
 
         return false; // No bridge found in this subtree
-    }
-
-    /**
-     * Example usage
-     */
-    public static void main(String[] args) {
-        Exercise6_3 solution = new Exercise6_3();
-
-        // Example 1: 2-edge-connected graph (cycle with 3 vertices)
-        // A --- B
-        // |     |
-        // |     |
-        // C ----
-        Graph<String> graph1 = new Graph<>(false); // undirected graph
-        Vertex<String> a = graph1.addVertex("A");
-        Vertex<String> b = graph1.addVertex("B");
-        Vertex<String> c = graph1.addVertex("C");
-        graph1.addEdge(a, b);
-        graph1.addEdge(b, c);
-        graph1.addEdge(c, a);
-        System.out.println("Graph 1 is 2-edge-connected: " + solution.isTwoEdgeConnected(graph1));
-
-        // Example 2: Graph with a bridge
-        // D --- E --- F --- G
-        //           ↑
-        //         bridge
-        Graph<String> graph2 = new Graph<>(false); // undirected graph
-        Vertex<String> d = graph2.addVertex("D");
-        Vertex<String> e = graph2.addVertex("E");
-        Vertex<String> f = graph2.addVertex("F");
-        Vertex<String> g = graph2.addVertex("G");
-        graph2.addEdge(d, e);
-        graph2.addEdge(e, f); // this is a bridge
-        graph2.addEdge(f, g);
-        System.out.println("Graph 2 is 2-edge-connected: " + solution.isTwoEdgeConnected(graph2));
-
-        // Example 3: Another 2-edge-connected graph (a square)
-        // H --- I
-        // |     |
-        // |     |
-        // K --- J
-        Graph<String> graph3 = new Graph<>(false);
-        Vertex<String> h = graph3.addVertex("H");
-        Vertex<String> i = graph3.addVertex("I");
-        Vertex<String> j = graph3.addVertex("J");
-        Vertex<String> k = graph3.addVertex("K");
-        graph3.addEdge(h, i);
-        graph3.addEdge(i, j);
-        graph3.addEdge(j, k);
-        graph3.addEdge(k, h);
-        System.out.println("Graph 3 is 2-edge-connected: " + solution.isTwoEdgeConnected(graph3));
     }
 }

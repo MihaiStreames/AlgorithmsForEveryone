@@ -1,7 +1,7 @@
 package DataStructs.UF;
 
 /**
- * A Union-Find (Disjoint-Set) data structure implementation with path compression and union by size.
+ * An Union-Find (Disjoint-Set) data structure implementation with path compression and union by size.
  * This data structure efficiently tracks a collection of disjoint sets and supports
  * two operations:
  * - Find: Determine which set an element belongs to
@@ -13,7 +13,7 @@ public class UnionFind {
     private int count;           // number of disjoint sets
 
     /**
-     * Initializes a Union-Find data structure with n elements,
+     * Initializes an Union-Find data structure with n elements,
      * initially each element is in its own set.
      *
      * @param n the number of elements
@@ -42,6 +42,7 @@ public class UnionFind {
      * @throws IllegalArgumentException if p is out of bounds
      */
     public int find(int p) {
+        // Check that p is within bounds
         validate(p);
 
         // Path compression: Make each examined node point directly to the root
@@ -50,7 +51,7 @@ public class UnionFind {
             root = parent[root];
         }
 
-        // Make each node on the path from p to root point directly to root
+        // Make each node on the path from p to root point directly to the root
         while (p != root) {
             int newParent = parent[p];
             parent[p] = root;
@@ -60,11 +61,6 @@ public class UnionFind {
         return root;
     }
 
-    /**
-     * Returns the number of disjoint sets.
-     *
-     * @return the number of disjoint sets
-     */
     public int count() {
         return count;
     }
@@ -108,23 +104,10 @@ public class UnionFind {
         count--; // Reduce the number of disjoint sets
     }
 
-    /**
-     * Returns the size of the set containing element p.
-     *
-     * @param p the element
-     * @return the size of the set containing p
-     * @throws IllegalArgumentException if p is out of bounds
-     */
     public int sizeOf(int p) {
         return size[find(p)];
     }
 
-    /**
-     * Validates that p is a valid element index.
-     *
-     * @param p the element to validate
-     * @throws IllegalArgumentException if p is out of bounds
-     */
     private void validate(int p) {
         int n = parent.length;
         if (p < 0 || p >= n) {
@@ -132,22 +115,12 @@ public class UnionFind {
         }
     }
 
-    /**
-     * Returns a copy of the parent array for debugging.
-     *
-     * @return a copy of the parent array
-     */
     public int[] getParent() {
         int[] copy = new int[parent.length];
         System.arraycopy(parent, 0, copy, 0, parent.length);
         return copy;
     }
 
-    /**
-     * Returns a copy of the size array for debugging.
-     *
-     * @return a copy of the size array
-     */
     public int[] getSize() {
         int[] copy = new int[size.length];
         System.arraycopy(size, 0, copy, 0, size.length);

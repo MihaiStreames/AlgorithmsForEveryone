@@ -28,6 +28,24 @@ public class RBTreeNode<T extends Comparable<T>> {
     }
 
     /**
+     * Helper method to get the RED constant.
+     *
+     * @return the RED color constant
+     */
+    public static boolean RED() {
+        return RED;
+    }
+
+    /**
+     * Helper method to get the BLACK constant.
+     *
+     * @return the BLACK color constant
+     */
+    public static boolean BLACK() {
+        return BLACK;
+    }
+
+    /**
      * Gets the key (data) stored in this node.
      *
      * @return the key
@@ -97,24 +115,6 @@ public class RBTreeNode<T extends Comparable<T>> {
      */
     public void setColor(boolean color) {
         this.color = color;
-    }
-
-    /**
-     * Helper method to get the RED constant.
-     *
-     * @return the RED color constant
-     */
-    public static boolean RED() {
-        return RED;
-    }
-
-    /**
-     * Helper method to get the BLACK constant.
-     *
-     * @return the BLACK color constant
-     */
-    public static boolean BLACK() {
-        return BLACK;
     }
 
     @Override
