@@ -2,8 +2,9 @@
 
 A comprehensive collection of common algorithms and data structures implemented in Java.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.mihaistreames/afe.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.mihaistreames/afe)
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/io.github.mihaistreames/afe/badge.svg)](https://central.sonatype.com/artifact/io.github.mihaistreames/afe)
 
 ## Installation
 

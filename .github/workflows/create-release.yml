@@ -4,7 +4,11 @@ on:
     workflow_dispatch:
         inputs:
             version:
-                description: '0.0.1'
+                description: 'Version to release'
+                required: true
+                type: string
+            previous_version:
+                description: 'Previous version to compare with'
                 required: true
                 type: string
 
