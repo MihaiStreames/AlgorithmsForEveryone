@@ -33,15 +33,6 @@ jobs:
                         
                         Check the [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
                         
-                        ## Maven
-                        ```xml
-                        <dependency>
-                            <groupId>io.github.mihaistreames</groupId>
-                            <artifactId>afe</artifactId>
-                            <version>${{ github.event.inputs.version }}</version>
-                        </dependency>
-                        ```
-                        
                         **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ github.event.inputs.previous_version }}...v${{ github.event.inputs.version }}
                     draft: false
                     prerelease: false
