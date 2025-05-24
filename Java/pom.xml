@@ -23,7 +23,7 @@
 
     <developers>
         <developer>
-            <id>Sincos</id>
+            <id>sincos</id>
             <name>Sincos</name>
             <email>optik@koolkdzonly.club</email>
         </developer>
@@ -58,13 +58,6 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.11.4</version>
             <scope>test</scope>
-        </dependency>
-
-        <!-- Publishing dependencies -->
-        <dependency>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.7.0</version>
         </dependency>
 
     </dependencies>
