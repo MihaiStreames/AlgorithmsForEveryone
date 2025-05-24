@@ -50,6 +50,7 @@
             <artifactId>annotations</artifactId>
             <version>26.0.2</version>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Test dependencies -->
@@ -58,6 +59,7 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.11.4</version>
             <scope>test</scope>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>
