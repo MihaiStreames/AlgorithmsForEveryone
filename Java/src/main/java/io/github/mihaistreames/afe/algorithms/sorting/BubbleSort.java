@@ -22,7 +22,7 @@ import java.util.*;
  *
  * @author Sincos Team
  * @version 1.0.0
- * @since 1.0.0
+ * @since 0.0.1
  */
 public final class BubbleSort {
 
