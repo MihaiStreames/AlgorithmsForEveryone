@@ -1,11 +1,39 @@
 package io.github.mihaistreames.afe.structs.arrays;
 
+/**
+ * Implementation of a UnionFind structure.
+ * <p>
+ * This structure is used to efficiently manage and query connected components in a set.
+ * * It supports three union operations:
+ * <ol>
+ *     <li>Naive Union</li>
+ *     <li>Quick Union</li>
+ *     <li>Weighted Quick Union</li>
+ * </ol>
+ * The structure also supports path compression to optimize the find operation.<br>
+ * <ul>
+ *     <li><strong>Time Complexity:</strong> O(log n) for union and find operations with path compression</li>
+ *     <li><strong>Time Complexity:</strong> O(n) for naive union</li>
+ *     <li><strong>Space Complexity:</strong> O(n)</li>
+ * </ul>
+ * </p>
+ *
+ * @author Sincos Team
+ * @version 1.0.0
+ * @since 0.0.3
+ */
 public class UnionFind {
     private final int[] ids;
     private final int[] heights; // for weighted quick union
     private final int size;
     private int count;
 
+    /**
+     * Constructs a UnionFind structure with n elements.
+     *
+     * @param n the number of elements in the UnionFind structure
+     * @throws IllegalArgumentException if n is less than or equal to 0
+     */
     public UnionFind(int n) {
         ids = new int[n];
         heights = new int[n]; // initialize heights for weighted quick union
@@ -17,6 +45,14 @@ public class UnionFind {
         }
     }
 
+
+    /**
+     * Does a naive union of two elements p and q.
+     *
+     * @param p the first element
+     * @param q the second element
+     * @throws IllegalArgumentException if p or q is out of bounds
+     * */
     public void naiveUnion (int p, int q) {
         if (p < 0 || p >= size || q < 0 || q >= size) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -36,6 +72,13 @@ public class UnionFind {
         }
     }
 
+    /**
+     * Does a quick union of two elements p and q.
+     *
+     * @param p the first element
+     * @param q the second element
+     * @throws IllegalArgumentException if p or q is out of bounds
+     */
     public void quickUnion (int p, int q) {
         if (p < 0 || p >= size || q < 0 || q >= size) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -48,6 +91,13 @@ public class UnionFind {
         ids[pRoot] = qRoot; // connect p's root to q's root
     }
 
+    /**
+     * Does a weighted quick union of two elements p and q.
+     *
+     * @param p the first element
+     * @param q the second element
+     * @throws IllegalArgumentException if p or q is out of bounds
+     */
     public void weightedQuickUnion (int p, int q) {
         if (p < 0 || p >= size || q < 0 || q >= size) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -69,6 +119,13 @@ public class UnionFind {
         count--; // decrease the number of components
     }
 
+    /**
+     * finds the root of the component containing element p.
+     *
+     * @param p the first element
+     * @return the root of the component containing element p
+     * @throws IllegalArgumentException if p or q is out of bounds
+     */
     public int find (int p) {
         if (p < 0 || p >= size) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -79,6 +136,13 @@ public class UnionFind {
         return p;
     }
 
+    /**
+     * Compressed find operation that uses path compression to flatten the structure.
+     *
+     * @param p the element to find
+     * @return the root of the component containing element p
+     * @throws IllegalArgumentException if p is out of bounds
+     */
     public int compressedFind(int p) {
         if (p < 0 || p >= size) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -96,6 +160,13 @@ public class UnionFind {
         return root;
     }
 
+    /**
+     * Recursive compressed find operation that uses path compression to flatten the structure.
+     *
+     * @param p the element to find
+     * @return the root of the component containing element p
+     * @throws IllegalArgumentException if p is out of bounds
+     */
     public int recursiveCompressedFind(int p) {
         if (p < 0 || p >= size) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -107,6 +178,9 @@ public class UnionFind {
         return ids[p]; // return the root
     }
 
+    /**
+     * @return the number of sets in the UnionFind structure
+     */
     public int count (){
         return count;
     }
