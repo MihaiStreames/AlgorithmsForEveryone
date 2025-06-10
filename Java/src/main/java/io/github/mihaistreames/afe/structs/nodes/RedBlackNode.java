@@ -1,5 +1,7 @@
 package io.github.mihaistreames.afe.structs.nodes;
 
+import java.util.Objects;
+
 /**
  * Represents a node in a (Left-Leaning) Red-Black Tree.
  *
@@ -53,5 +55,18 @@ public class RedBlackNode<T> {
                 "data=" + data +
                 ", color=" + (color == RED ? "RED" : "BLACK") +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        final RedBlackNode<?> that = (RedBlackNode<?>) obj;
+        return color == that.color && Objects.equals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(data, color);
     }
 }

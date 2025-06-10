@@ -19,8 +19,7 @@ import java.util.Objects;
  * </p>
  * <p>
  * <strong>Time Complexity:</strong> O(log n) for search, insert, and delete<br>
- * <strong>Space Complexity:</strong> O(n)<br>
- * <strong>Use Case:</strong> When you need guaranteed logarithmic time operations
+ * <strong>Space Complexity:</strong> O(n) where n is the number of elements<br>
  * </p>
  *
  * @param <T> The type of data stored in the tree
