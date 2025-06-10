@@ -14,7 +14,7 @@ A comprehensive collection of common algorithms and data structures implemented 
 <dependency>
     <groupId>io.github.mihaistreames</groupId>
     <artifactId>afe</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
