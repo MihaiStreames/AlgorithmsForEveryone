@@ -4,7 +4,7 @@ package io.github.mihaistreames.afe.structs.arrays;
  * Implementation of a UnionFind structure.
  * <p>
  * This structure is used to efficiently manage and query connected components in a set.
- * * It supports three union operations:
+ * It supports three union operations:
  * <ol>
  *     <li>Naive Union</li>
  *     <li>Quick Union</li>
@@ -41,7 +41,6 @@ public class UnionFind {
         }
     }
 
-
     /**
      * Does a naive union of two elements p and q.
      *
@@ -50,9 +49,9 @@ public class UnionFind {
      * @throws IllegalArgumentException if p or q is out of bounds
      */
     public void naiveUnion(int p, int q) {
-        if (p < 0 || p >= size || q < 0 || q >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
-        }
+        validateIndex(p);
+        validateIndex(q);
+
         int pID = ids[p];
         int qID = ids[q];
 
@@ -76,9 +75,9 @@ public class UnionFind {
      * @throws IllegalArgumentException if p or q is out of bounds
      */
     public void quickUnion(int p, int q) {
-        if (p < 0 || p >= size || q < 0 || q >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
-        }
+        validateIndex(p);
+        validateIndex(q);
+
         int pRoot = find(p);
         int qRoot = find(q);
         if (pRoot == qRoot) {
@@ -95,9 +94,9 @@ public class UnionFind {
      * @throws IllegalArgumentException if p or q is out of bounds
      */
     public void weightedQuickUnion(int p, int q) {
-        if (p < 0 || p >= size || q < 0 || q >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
-        }
+        validateIndex(p);
+        validateIndex(q);
+
         int pRoot = compressedFind(p);
         int qRoot = compressedFind(q);
         if (pRoot == qRoot) {
@@ -116,16 +115,15 @@ public class UnionFind {
     }
 
     /**
-     * finds the root of the component containing element p.
+     * Finds the root of the component containing element p.
      *
      * @param p the first element
      * @return the root of the component containing element p
      * @throws IllegalArgumentException if p or q is out of bounds
      */
     public int find(int p) {
-        if (p < 0 || p >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
-        }
+        validateIndex(p);
+
         while (p != ids[p]) {
             p = ids[p]; // follow the chain to find the root
         }
@@ -140,9 +138,8 @@ public class UnionFind {
      * @throws IllegalArgumentException if p is out of bounds
      */
     public int compressedFind(int p) {
-        if (p < 0 || p >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
-        }
+        validateIndex(p);
+
         int root = p;
         while (root != ids[root]) {
             root = ids[root]; // find the root
@@ -164,13 +161,11 @@ public class UnionFind {
      * @throws IllegalArgumentException if p is out of bounds
      */
     public int recursiveCompressedFind(int p) {
-        if (p < 0 || p >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
-        }
+        validateIndex(p);
+
         if (p != ids[p]) {
             ids[p] = recursiveCompressedFind(ids[p]); // path compression
         }
-
         return ids[p]; // return the root
     }
 
@@ -179,5 +174,18 @@ public class UnionFind {
      */
     public int count() {
         return count;
+    }
+
+    // ========== PRIVATE HELPER METHODS ==========
+
+    /**
+     * Checks if an index is within the valid range.
+     *
+     * @param index the index to validate
+     */
+    private void validateIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Index out of bounds");
+        }
     }
 }

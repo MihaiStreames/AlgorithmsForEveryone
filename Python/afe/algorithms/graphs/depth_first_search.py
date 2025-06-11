@@ -1,16 +1,21 @@
 from typing import Optional, Iterable, List
 
-from afe.structs.graphs.graph import Graph
+from ...structs.graphs import Graph
 
 
 class DepthFirstSearch:
-    """
-    Depth-First Search for finding paths in a graph.
-    - Time Complexity: O(V + E)
-    - Space Complexity: O(V)
+    """Performs a depth-first search to find paths in a graph.
+
+    Time complexity is O(V + E) where V is vertices and E is edges.
     """
 
     def __init__(self, graph: Graph, source: int):
+        """Initializes and runs the DFS from a source vertex.
+
+        Args:
+            graph: The graph to search.
+            source: The source vertex (integer).
+        """
         self._graph = graph
         self._source = source
         self._marked: List[bool] = [False] * graph.V()
@@ -32,12 +37,12 @@ class DepthFirstSearch:
         return self._marked[v]
 
     def path_to(self, v: int) -> Optional[Iterable[int]]:
-        """Returns a path from the source to vertex v."""
+        """Returns a path from the source to vertex v, or None."""
         if not self.has_path_to(v):
             return None
 
-        path = []
-        x = v
+        path: List[int] = []
+        x: Optional[int] = v
         while x is not None:
             path.append(x)
             x = self._edge_to[x]

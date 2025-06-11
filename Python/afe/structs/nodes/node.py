@@ -4,25 +4,30 @@ T = TypeVar('T')
 
 
 class Node(Generic[T]):
-    """
-    Represents a generic node in a linked data structure.
-    Each node contains a value and a reference to the next node.
+    """A generic node for use in linked data structures.
+
+    Attributes:
+        value (T): The data stored in the node.
+        next (Optional['Node[T]']): Reference to the next node in the sequence.
     """
 
     def __init__(self, value: T, next_node: Optional['Node[T]'] = None):
-        """
-        Constructs a new node.
+        """Initializes a Node.
+
         Args:
-            value: The value to store in this node.
-            next_node: The next node in the sequence, or None.
+            value: The data to store in the node. Cannot be None.
+            next_node: The next node in the sequence. Defaults to None.
+
+        Raises:
+            ValueError: If the provided value is None.
         """
         if value is None:
-            raise ValueError("Value cannot be None")
+            raise ValueError("Value cannot be null")
         self.value: T = value
         self.next: Optional['Node[T]'] = next_node
 
     def has_next(self) -> bool:
-        """Checks if this node has a next node."""
+        """Checks if this node has a subsequent node."""
         return self.next is not None
 
     def __str__(self) -> str:

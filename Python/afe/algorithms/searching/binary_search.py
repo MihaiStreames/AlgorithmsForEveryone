@@ -11,15 +11,12 @@ def binary_search(
     """
     Searches for a key in a sorted list.
 
-    - Time Complexity: O(log n)
-    - Space Complexity: O(1)
-    - Prerequisite: The list must be sorted.
+    Achieves O(log n) time complexity.
 
     Args:
         data: The sorted list to search in.
         key: The element to search for.
-        comparator: A function to compare elements. If None, standard
-                    comparison is used.
+        comparator: A function to compare elements. If None, standard comparison is used.
 
     Returns:
         The index of the key if found, otherwise -1.
@@ -40,4 +37,4 @@ def binary_search(
         else:
             return mid
 
-    return -1  # Key not found
+    return -1

@@ -18,7 +18,7 @@ def sort(
     for i in range(1, len(data)):
         key = data[i]
         j = i - 1
-        while j >= 0 > comparator(key, data[j]):
+        while j >= 0 and comparator(key, data[j]) < 0:
             data[j + 1] = data[j]
             j -= 1
         data[j + 1] = key
