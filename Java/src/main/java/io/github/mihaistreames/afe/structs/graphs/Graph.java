@@ -3,7 +3,6 @@ package io.github.mihaistreames.afe.structs.graphs;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ public class Graph {
 
     private final int vertices;
     private int edges;
-    private final List<List<Integer>> adjacencyList;
+    private final List<List<Edge>> adjacencyList;
 
     /**
      * Constructs an empty graph with the specified number of vertices.
@@ -78,7 +77,25 @@ public class Graph {
     @NotNull
     public List<Integer> adj(final int vertex) {
         validateVertex(vertex);
-        return Collections.unmodifiableList(adjacencyList.get(vertex));
+        List<Edge> edges = adjacencyList.get(vertex);
+        List<Integer> adjacentVertices = new ArrayList<>(edges.size());
+        for (Edge edge : edges) {
+            adjacentVertices.add(edge.other(vertex));
+        }
+        return adjacentVertices;
+    }
+
+    /**
+     * Returns the vertices adjacent to the specified vertex.
+     *
+     * @param vertex the vertex whose adjacent vertices to return
+     * @return an immutable list of vertices adjacent to the specified vertex
+     * @throws IllegalArgumentException if vertex is not between 0 and V-1
+     */
+    @NotNull
+    public List<Edge> adjEdge(final int vertex) {
+        validateVertex(vertex);
+        return adjacencyList.get(vertex);
     }
 
     /**
@@ -93,18 +110,34 @@ public class Graph {
      * @throws IllegalArgumentException if either vertex is not between 0 and V-1
      */
     public void addEdge(final int v, final int w) {
+        addEdge(v, w, 1);
+    }
+
+    /**
+     * Adds an undirected edge between the specified vertices.
+     * <p>
+     * If the edge already exists, this method does nothing.
+     * The edge is added to both vertices' adjacency lists.
+     * </p>
+     *
+     * @param v one vertex of the edge
+     * @param w the other vertex of the edge
+     * @throws IllegalArgumentException if either vertex is not between 0 and V-1
+     */
+    public void addEdge(final int v, final int w, double weight) {
         validateVertex(v);
         validateVertex(w);
 
+        Edge edge = new Edge(v, w, weight);
+
         // Check if edge already exists to avoid duplicates
-        if (!adjacencyList.get(v).contains(w)) {
-            adjacencyList.get(v).add(w);
+        if (!adjacencyList.get(v).contains(edge)) {
+            adjacencyList.get(v).add(edge);
 
             // For undirected graph, add edge in both directions (unless self-loop)
             if (v != w) {
-                adjacencyList.get(w).add(v);
+                adjacencyList.get(w).add(edge);
             }
-
             edges++;
         }
     }
@@ -121,20 +154,33 @@ public class Graph {
      * @throws IllegalArgumentException if either vertex is not between 0 and V-1
      */
     public void removeEdge(final int v, final int w) {
+        removeEdge(v, w, 1);
+    }
+
+    public void removeEdge(final int v, final int w, double weight) {
         validateVertex(v);
         validateVertex(w);
 
-        // Remove edge if it exists
-        if (adjacencyList.get(v).contains(w)) {
-            adjacencyList.get(v).remove(Integer.valueOf(w));
+        Edge edge = new Edge(v, w, weight);
+        removeEdge(edge);
+    }
 
-            // For undirected graph, remove edge from both directions (unless self-loop)
-            if (v != w) {
-                adjacencyList.get(w).remove(Integer.valueOf(v));
-            }
-
-            edges--;
+    public void removeEdge(final Edge edge) {
+        if (edge == null) {
+            throw new IllegalArgumentException("Edge cannot be null");
         }
+
+        int v = edge.either();
+        int w = edge.other(v);
+
+        validateVertex(v);
+        validateVertex(w);
+
+        // Remove edge from both vertices' adjacency lists
+        adjacencyList.get(v).remove(edge);
+        adjacencyList.get(w).remove(edge);
+
+        edges--;
     }
 
     /**
@@ -148,7 +194,8 @@ public class Graph {
     public boolean hasEdge(final int v, final int w) {
         validateVertex(v);
         validateVertex(w);
-        return adjacencyList.get(v).contains(w);
+        Edge edge = new Edge(v, w, 1);
+        return adjacencyList.get(v).contains(edge);
     }
 
     // ========== PRIVATE HELPER METHODS ==========

@@ -1,5 +1,7 @@
 package io.github.mihaistreames.afe.structs.graphs;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Edge implements Comparable<Edge>{
     private final int vertex1;  // One endpoint of the edge
     private final int vertex2;  // The other endpoint of the edge
@@ -82,10 +84,7 @@ public class Edge implements Comparable<Edge>{
     }
 
     @Override
-    public int compareTo(Edge that) {
-        if (that == null) {
-            throw new NullPointerException("Cannot compare to null edge");
-        }
+    public int compareTo(@NotNull Edge that) {
         return Double.compare(this.weight, that.weight);
     }
 
@@ -97,4 +96,13 @@ public class Edge implements Comparable<Edge>{
     public String toString() {
         return String.format("%d-%d %.5f", vertex1, vertex2, weight);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Edge edge)) return false;
+        return (vertex1 == edge.vertex1 && vertex2 == edge.vertex2 && Double.compare(edge.weight, weight) == 0) ||
+                (vertex1 == edge.vertex2 && vertex2 == edge.vertex1 && Double.compare(edge.weight, weight) == 0);
+    }
+
 }
