@@ -3,8 +3,8 @@ package io.github.mihaistreames.afe.algorithms.graphs;
 import io.github.mihaistreames.afe.structs.graphs.Graph;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -17,68 +17,56 @@ import java.util.Stack;
  * <strong>Time Complexity:</strong> O(V + E) where V is vertices and E is edges<br>
  * <strong>Space Complexity:</strong> O(V) for the recursion stack and data structures
  * </p>
+ *
+ * @param <T> The type of the vertices.
  */
-public class DepthFirstSearch {
+public class DepthFirstSearch<T> {
 
-    private final boolean[] marked;    // Has vertex been visited?
-    private final int[] edgeTo;        // Previous vertex on path to this vertex
-    private final Graph graph;
-    private final int source;
+    private final Map<T, Boolean> marked;
+    private final Map<T, T> edgeTo;
+    private final T source;
 
     /**
-     * Performs DFS from the specified source vertex.
+     * Performs DFS from a source vertex.
      *
-     * @param graph  the graph to search
-     * @param source the source vertex to start DFS from
-     * @throws NullPointerException     if graph is null
-     * @throws IllegalArgumentException if source vertex is invalid
+     * @param graph  The graph to search.
+     * @param source The source vertex.
      */
-    public DepthFirstSearch(@NotNull final Graph graph, final int source) {
-        this.graph = Objects.requireNonNull(graph, "Graph cannot be null");
+    public DepthFirstSearch(@NotNull final Graph<T> graph, final T source) {
+        this.marked = new HashMap<>();
+        this.edgeTo = new HashMap<>();
         this.source = source;
 
-        // Validate source vertex
-        if (source < 0 || source >= graph.V()) {
-            throw new IllegalArgumentException("Source vertex " + source + " is not valid");
+        for (T vertex : graph.vertices()) {
+            marked.put(vertex, false);
         }
 
-        this.marked = new boolean[graph.V()];
-        this.edgeTo = new int[graph.V()];
-
-        // Initialize edgeTo array with -1 (no predecessor)
-        Arrays.fill(edgeTo, -1);
-
-        dfs(source);
+        dfs(graph, source);
     }
 
     // ========== PUBLIC API ==========
 
     /**
-     * Checks if there is a path from the source vertex to the specified vertex.
+     * Is there a path from the source to the given vertex?
      *
-     * @param vertex the vertex to check reachability for
-     * @return true if there is a path from source to vertex, false otherwise
-     * @throws IllegalArgumentException if vertex is not valid
+     * @param v The vertex.
+     * @return true if there is a path, false otherwise.
      */
-    public boolean hasPathTo(final int vertex) {
-        if (vertex < 0 || vertex >= graph.V()) {
-            throw new IllegalArgumentException("Vertex " + vertex + " is not valid");
-        }
-        return marked[vertex];
+    public boolean hasPathTo(T v) {
+        return marked.getOrDefault(v, false);
     }
 
     /**
-     * Returns a path from the source vertex to the specified vertex.
+     * Returns the path from the source to the given vertex.
      *
-     * @param vertex the target vertex
-     * @return an iterable of vertices representing a path, or null if no path exists
-     * @throws IllegalArgumentException if vertex is not valid
+     * @param v The vertex.
+     * @return An iterable of the path, or null if no path exists.
      */
-    public Iterable<Integer> pathTo(final int vertex) {
-        if (!hasPathTo(vertex)) return null;
+    public Iterable<T> pathTo(T v) {
+        if (!hasPathTo(v)) return null;
 
-        final Stack<Integer> path = new Stack<>();
-        for (int x = vertex; x != source; x = edgeTo[x]) {
+        Stack<T> path = new Stack<>();
+        for (T x = v; x != null && !x.equals(source); x = edgeTo.get(x)) {
             path.push(x);
         }
         path.push(source);
@@ -88,18 +76,14 @@ public class DepthFirstSearch {
 
     // ========== PRIVATE IMPLEMENTATION ==========
 
-    /**
-     * Recursive DFS implementation.
-     *
-     * @param vertex the current vertex to explore
-     */
-    private void dfs(final int vertex) {
-        marked[vertex] = true;
+    private void dfs(@NotNull Graph<T> graph, T v) {
+        marked.put(v, true);
+        if (graph.adj(v) == null) return; // Handle disconnected vertices
 
-        for (final int adjacentVertex : graph.adj(vertex)) {
-            if (!marked[adjacentVertex]) {
-                edgeTo[adjacentVertex] = vertex;
-                dfs(adjacentVertex);
+        for (T w : graph.adj(v)) {
+            if (!marked.get(w)) {
+                edgeTo.put(w, v);
+                dfs(graph, w);
             }
         }
     }

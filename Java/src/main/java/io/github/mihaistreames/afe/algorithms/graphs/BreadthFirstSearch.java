@@ -4,8 +4,8 @@ import io.github.mihaistreames.afe.structs.graphs.Graph;
 import io.github.mihaistreames.afe.structs.queues.Queue;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -19,71 +19,59 @@ import java.util.Stack;
  * <strong>Time Complexity:</strong> O(V + E) where V is vertices and E is edges<br>
  * <strong>Space Complexity:</strong> O(V) for the queue and data structures
  * </p>
+ *
+ * @param <T> The type of the vertices.
  */
-public class BreadthFirstSearch {
+public class BreadthFirstSearch<T> {
 
-    private final boolean[] marked;    // Has vertex been visited?
-    private final int[] edgeTo;        // Previous vertex on path to this vertex
-    private final int[] distTo;        // Distance from source to this vertex
-    private final Graph graph;
-    private final int source;
+    private final Map<T, Boolean> marked;
+    private final Map<T, T> edgeTo;
+    private final Map<T, Integer> distTo;
+    private final T source;
 
     /**
-     * Performs BFS from the specified source vertex.
+     * Performs BFS from a source vertex.
      *
-     * @param graph  the graph to search
-     * @param source the source vertex to start BFS from
-     * @throws NullPointerException     if graph is null
-     * @throws IllegalArgumentException if source vertex is invalid
+     * @param graph  The graph to search.
+     * @param source The source vertex.
      */
-    public BreadthFirstSearch(@NotNull final Graph graph, final int source) {
-        this.graph = Objects.requireNonNull(graph, "Graph cannot be null");
+    public BreadthFirstSearch(@NotNull final Graph<T> graph, final T source) {
+        this.marked = new HashMap<>();
+        this.edgeTo = new HashMap<>();
+        this.distTo = new HashMap<>();
         this.source = source;
 
-        // Validate source vertex
-        if (source < 0 || source >= graph.V()) {
-            throw new IllegalArgumentException("Source vertex " + source + " is not valid");
+        for (T vertex : graph.vertices()) {
+            marked.put(vertex, false);
+            distTo.put(vertex, Integer.MAX_VALUE);
         }
 
-        this.marked = new boolean[graph.V()];
-        this.edgeTo = new int[graph.V()];
-        this.distTo = new int[graph.V()];
-
-        // Initialize arrays
-        Arrays.fill(edgeTo, -1);
-        Arrays.fill(distTo, Integer.MAX_VALUE);
-
-        bfs(source);
+        bfs(graph, source);
     }
 
     // ========== PUBLIC API ==========
 
     /**
-     * Checks if there is a path from the source vertex to the specified vertex.
+     * Is there a path from the source to the given vertex?
      *
-     * @param vertex the vertex to check reachability for
-     * @return true if there is a path from source to vertex, false otherwise
-     * @throws IllegalArgumentException if vertex is not valid
+     * @param v The vertex.
+     * @return true if there is a path, false otherwise.
      */
-    public boolean hasPathTo(final int vertex) {
-        if (vertex < 0 || vertex >= graph.V()) {
-            throw new IllegalArgumentException("Vertex " + vertex + " is not valid");
-        }
-        return marked[vertex];
+    public boolean hasPathTo(T v) {
+        return marked.getOrDefault(v, false);
     }
 
     /**
-     * Returns the shortest path from the source vertex to the specified vertex.
+     * Returns the path from the source to the given vertex.
      *
-     * @param vertex the target vertex
-     * @return an iterable of vertices representing the shortest path, or null if no path exists
-     * @throws IllegalArgumentException if vertex is not valid
+     * @param v The vertex.
+     * @return An iterable of the path, or null if no path exists.
      */
-    public Iterable<Integer> pathTo(final int vertex) {
-        if (!hasPathTo(vertex)) return null;
+    public Iterable<T> pathTo(T v) {
+        if (!hasPathTo(v)) return null;
 
-        final Stack<Integer> path = new Stack<>();
-        for (int x = vertex; x != source; x = edgeTo[x]) {
+        Stack<T> path = new Stack<>();
+        for (T x = v; !x.equals(source); x = edgeTo.get(x)) {
             path.push(x);
         }
         path.push(source);
@@ -92,42 +80,33 @@ public class BreadthFirstSearch {
     }
 
     /**
-     * Returns the distance (number of edges) from the source vertex to the specified vertex.
+     * Returns the distance from the source to the given vertex.
      *
-     * @param vertex the target vertex
-     * @return the distance from source to vertex, or Integer.MAX_VALUE if no path exists
-     * @throws IllegalArgumentException if vertex is not valid
+     * @param v The vertex.
+     * @return The distance as an integer, or -1 if no path exists.
      */
-    public int distTo(final int vertex) {
-        if (vertex < 0 || vertex >= graph.V()) {
-            throw new IllegalArgumentException("Vertex " + vertex + " is not valid");
-        }
-        return distTo[vertex];
+    public int distTo(T v) {
+        if (!hasPathTo(v)) return -1;
+        return distTo.getOrDefault(v, -1);
     }
 
     // ========== PRIVATE IMPLEMENTATION ==========
 
-    /**
-     * BFS implementation using a queue.
-     *
-     * @param source the source vertex to start BFS from
-     */
-    private void bfs(final int source) {
-        final Queue<Integer> queue = new Queue<>();
-
-        marked[source] = true;
-        distTo[source] = 0;
-        queue.enqueue(source);
+    private void bfs(Graph<T> graph, T s) {
+        Queue<T> queue = new Queue<>();
+        marked.put(s, true);
+        distTo.put(s, 0);
+        queue.enqueue(s);
 
         while (!queue.isEmpty()) {
-            final int vertex = queue.dequeue();
-
-            for (final int adjacentVertex : graph.adj(vertex)) {
-                if (!marked[adjacentVertex]) {
-                    marked[adjacentVertex] = true;
-                    edgeTo[adjacentVertex] = vertex;
-                    distTo[adjacentVertex] = distTo[vertex] + 1;
-                    queue.enqueue(adjacentVertex);
+            T v = queue.dequeue();
+            if (graph.adj(v) == null) continue; // Handle disconnected vertices
+            for (T w : graph.adj(v)) {
+                if (!marked.get(w)) {
+                    edgeTo.put(w, v);
+                    marked.put(w, true);
+                    distTo.put(w, distTo.get(v) + 1);
+                    queue.enqueue(w);
                 }
             }
         }
