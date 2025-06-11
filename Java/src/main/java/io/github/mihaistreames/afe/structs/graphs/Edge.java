@@ -28,9 +28,11 @@ public class Edge<T> implements Comparable<Edge<T>> {
     public Edge(T vertex1, T vertex2, double weight) {
         this.vertex1 = Objects.requireNonNull(vertex1, "Vertex cannot be null");
         this.vertex2 = Objects.requireNonNull(vertex2, "Vertex cannot be null");
+
         if (Double.isNaN(weight)) {
             throw new IllegalArgumentException("Weight cannot be NaN");
         }
+
         this.weight = weight;
     }
 
