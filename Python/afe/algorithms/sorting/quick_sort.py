@@ -31,11 +31,18 @@ def sort(
         data: List[T],
         comparator: Optional[Callable[[T, T], int]] = None
 ):
+    """Sorts a list in-place using the Quick Sort algorithm.
+
+    This implementation is not stable. It uses a randomized pivot to achieve
+    O(n log n) average time complexity.
+
+    Args:
+        data: The list of elements to sort.
+        comparator: A function for comparing two elements. If None, default
+            comparison operators are used.
     """
-    Sorts a list in-place using Quick Sort. Not stable.
-    - Time Complexity: O(n log n) average, O(n^2) worst.
-    - Space Complexity: O(log n) for recursion stack.
-    """
+    if not data:
+        return
     if comparator is None:
         comparator = lambda a, b: (a > b) - (a < b)
 

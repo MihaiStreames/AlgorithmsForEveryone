@@ -7,16 +7,23 @@ BLACK = False
 
 
 class RedBlackNode(Generic[T]):
-    """
-    Represents a node in a (Left-Leaning) Red-Black Tree.
+    """Represents a node in a Red-Black Tree.
+
+    New nodes are initialized as RED by default.
+
+    Attributes:
+        data (T): The data stored in the node.
+        left (Optional['RedBlackNode[T]']): The left child of the node.
+        right (Optional['RedBlackNode[T]']): The right child of the node.
+        color (bool): The color of the node (RED or BLACK).
     """
 
     def __init__(self, data: T, color: bool = RED):
-        """
-        Constructs a Red-Black Node.
+        """Initializes a RedBlackNode.
+
         Args:
-            data: The data to be stored in this node.
-            color: The color of the node (RED or BLACK). New nodes are red.
+            data: The data to be stored in the node.
+            color: The color of the node, defaulting to RED.
         """
         self.data: T = data
         self.left: Optional['RedBlackNode[T]'] = None

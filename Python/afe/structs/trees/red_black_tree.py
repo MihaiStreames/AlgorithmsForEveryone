@@ -1,40 +1,32 @@
 from typing import Generic, TypeVar, Optional, Callable
 
-from afe.structs.nodes.red_black_node import RedBlackNode, RED, BLACK
+from ..nodes import RedBlackNode
 
 T = TypeVar('T')
 
 
 class RedBlackTree(Generic[T]):
-    """
-    Implementation of a Left-Leaning Red-Black Tree.
-    This is a self-balancing binary search tree.
+    """A Left-Leaning Red-Black Tree, a type of self-balancing BST.
 
-    - Time Complexity: O(log n) for search, insert, and delete.
-    - Space Complexity: O(n).
+    Provides O(log n) time complexity for search, insert, and delete.
     """
 
     def __init__(self, comparator: Optional[Callable[[T, T], int]] = None):
-        """
-        Constructs a Red-Black Tree.
+        """Initializes the tree.
+
         Args:
-            comparator: A function that compares two elements, returning
-                        <0 if a < b, 0 if a == b, >0 if a > b.
-                        If None, elements must support standard comparison.
+            comparator: A function that returns <0, 0, or >0 to compare two
+                elements. If None, standard comparison operators are used.
         """
         self._root: Optional[RedBlackNode[T]] = None
         self._comparator = comparator or (lambda a, b: (a > b) - (a < b))
 
     @staticmethod
     def _is_red(node: Optional[RedBlackNode[T]]) -> bool:
-        """Checks if a node is red (null nodes are black)."""
-        if node is None:
-            return False
-        return node.is_red()
+        return node is not None and node.is_red()
 
     @staticmethod
     def _rotate_left(h: RedBlackNode[T]) -> RedBlackNode[T]:
-        """Rotates a right-leaning red link to lean left."""
         x = h.right
         h.right = x.left
         x.left = h
@@ -44,7 +36,6 @@ class RedBlackTree(Generic[T]):
 
     @staticmethod
     def _rotate_right(h: RedBlackNode[T]) -> RedBlackNode[T]:
-        """Rotates a left-leaning red link to lean right."""
         x = h.left
         h.left = x.right
         x.right = h
@@ -54,37 +45,35 @@ class RedBlackTree(Generic[T]):
 
     @staticmethod
     def _flip_colors(h: RedBlackNode[T]):
-        """Flips the colors of a node and its two red children."""
-        h.color = RED
-        h.left.color = BLACK
-        h.right.color = BLACK
+        h.color = not h.color
+        h.left.color = not h.left.color
+        h.right.color = not h.right.color
 
     def insert(self, data: T):
-        """Inserts data into the tree."""
-        if data is None:
-            raise ValueError("Cannot insert None")
+        """Inserts data into the tree, maintaining balance."""
+        if data is None: raise ValueError("Cannot insert None")
         self._root = self._put(self._root, data)
-        self._root.color = BLACK
+        if self._root is not None: self._root.color = BLACK
 
     def _put(self, node: Optional[RedBlackNode[T]], data: T) -> RedBlackNode[T]:
-        """Recursive helper to insert a node."""
-        if node is None:
-            return RedBlackNode(data)
+        if node is None: return RedBlackNode(data, RED)
 
         cmp = self._comparator(data, node.data)
         if cmp < 0:
             node.left = self._put(node.left, data)
         elif cmp > 0:
             node.right = self._put(node.right, data)
-        else:
-            # Key already exists, no-op
-            return node
 
-        # Balancing operations
+        # LLRB tree balancing operations
+        # 1. Rotate left if right child is red and left child is black
         if self._is_red(node.right) and not self._is_red(node.left):
             node = self._rotate_left(node)
+
+        # 2. Rotate right if left child and left-left grandchild are both red
         if self._is_red(node.left) and self._is_red(node.left.left):
             node = self._rotate_right(node)
+
+        # 3. Flip colors if both children are red
         if self._is_red(node.left) and self._is_red(node.right):
             self._flip_colors(node)
 
