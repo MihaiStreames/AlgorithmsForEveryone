@@ -3,7 +3,9 @@ package io.github.mihaistreames.afe.algorithms.graphs;
 import io.github.mihaistreames.afe.structs.graphs.Graph;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Stack;
 
 /**
  * Depth-First Search implementation for graphs.
@@ -15,16 +17,13 @@ import java.util.*;
  * <strong>Time Complexity:</strong> O(V + E) where V is vertices and E is edges<br>
  * <strong>Space Complexity:</strong> O(V) for the recursion stack and data structures
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.3
  */
 public class DepthFirstSearch {
 
     private final boolean[] marked;    // Has vertex been visited?
     private final int[] edgeTo;        // Previous vertex on path to this vertex
     private final Graph graph;
+    private final int source;
 
     /**
      * Performs DFS from the specified source vertex.
@@ -36,6 +35,7 @@ public class DepthFirstSearch {
      */
     public DepthFirstSearch(@NotNull final Graph graph, final int source) {
         this.graph = Objects.requireNonNull(graph, "Graph cannot be null");
+        this.source = source;
 
         // Validate source vertex
         if (source < 0 || source >= graph.V()) {
@@ -50,6 +50,43 @@ public class DepthFirstSearch {
 
         dfs(source);
     }
+
+    // ========== PUBLIC API ==========
+
+    /**
+     * Checks if there is a path from the source vertex to the specified vertex.
+     *
+     * @param vertex the vertex to check reachability for
+     * @return true if there is a path from source to vertex, false otherwise
+     * @throws IllegalArgumentException if vertex is not valid
+     */
+    public boolean hasPathTo(final int vertex) {
+        if (vertex < 0 || vertex >= graph.V()) {
+            throw new IllegalArgumentException("Vertex " + vertex + " is not valid");
+        }
+        return marked[vertex];
+    }
+
+    /**
+     * Returns a path from the source vertex to the specified vertex.
+     *
+     * @param vertex the target vertex
+     * @return an iterable of vertices representing a path, or null if no path exists
+     * @throws IllegalArgumentException if vertex is not valid
+     */
+    public Iterable<Integer> pathTo(final int vertex) {
+        if (!hasPathTo(vertex)) return null;
+
+        final Stack<Integer> path = new Stack<>();
+        for (int x = vertex; x != source; x = edgeTo[x]) {
+            path.push(x);
+        }
+        path.push(source);
+
+        return path;
+    }
+
+    // ========== PRIVATE IMPLEMENTATION ==========
 
     /**
      * Recursive DFS implementation.

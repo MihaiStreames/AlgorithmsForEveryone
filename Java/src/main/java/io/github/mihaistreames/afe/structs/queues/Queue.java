@@ -16,11 +16,6 @@ import java.util.Objects;
  * <strong>Time Complexity:</strong> O(1) for enqueue, dequeue, peek, and size<br>
  * <strong>Space Complexity:</strong> O(n) where n is the number of elements<br>
  * </p>
- *
- * @param <T> the type of elements stored in this queue
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.3
  */
 public class Queue<T> {
 

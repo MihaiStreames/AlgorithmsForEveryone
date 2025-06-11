@@ -6,9 +6,6 @@ import java.util.Objects;
  * Represents a node in a (Left-Leaning) Red-Black Tree.
  *
  * @param <T> The type of data stored in this node, expected to be comparable.
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.2
  */
 public class RedBlackNode<T> {
     public static final boolean RED = true;

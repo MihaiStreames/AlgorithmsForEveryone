@@ -20,10 +20,6 @@ import java.util.Objects;
  * <strong>Stability:</strong> Not stable - may change relative order of equal elements<br>
  * <strong>In-place:</strong> Yes - sorts in-place with constant extra space
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.1
  */
 public final class ShellSort {
 

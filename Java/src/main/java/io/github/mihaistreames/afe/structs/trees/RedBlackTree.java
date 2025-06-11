@@ -23,9 +23,6 @@ import java.util.Objects;
  * </p>
  *
  * @param <T> The type of data stored in the tree
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.2
  */
 public class RedBlackTree<T> {
 

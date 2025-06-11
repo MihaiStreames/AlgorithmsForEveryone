@@ -19,10 +19,6 @@ import java.util.Objects;
  * <strong>Space Complexity:</strong> O(1)<br>
  * <strong>Prerequisite:</strong> The collection must be sorted in ascending order
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.1
  */
 public final class BinarySearch {
 

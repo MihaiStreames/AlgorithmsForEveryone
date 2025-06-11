@@ -18,10 +18,6 @@ import java.util.List;
  * - Get adjacent vertices: O(1)<br>
  * - Space: O(V + E) where V is vertices and E is edges<br>
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.3
  */
 public class Graph {
 

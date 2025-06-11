@@ -16,10 +16,6 @@ import java.util.*;
  * <strong>Stability:</strong> Stable - maintains relative order of equal elements<br>
  * <strong>In-place:</strong> No - requires additional space
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.1
  */
 public final class MergeSort {
 

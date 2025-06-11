@@ -12,9 +12,6 @@ import java.util.Objects;
  * </p>
  *
  * @param <T> the type of value stored in this node
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.3
  */
 public class Node<T> {
 

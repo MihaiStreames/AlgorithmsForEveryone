@@ -17,12 +17,7 @@ import java.util.*;
  * <strong>Space Complexity:</strong> O(1) additional space<br>
  * <strong>Stability:</strong> Stable - maintains relative order of equal elements<br>
  * <strong>In-place:</strong> Yes - sorts in-place with constant extra space<br>
- * <strong>Note:</strong> Educational purposes only - inefficient for large datasets
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.1
  */
 public final class BubbleSort {
 

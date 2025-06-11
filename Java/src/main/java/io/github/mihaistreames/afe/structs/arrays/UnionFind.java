@@ -17,10 +17,6 @@ package io.github.mihaistreames.afe.structs.arrays;
  *     <li><strong>Space Complexity:</strong> O(n)</li>
  * </ul>
  * </p>
- *
- * @author Sincos Team
- * @version 1.0.0
- * @since 0.0.3
  */
 public class UnionFind {
     private final int[] ids;
@@ -29,7 +25,7 @@ public class UnionFind {
     private int count;
 
     /**
-     * Constructs a UnionFind structure with n elements.
+     * Constructs an UnionFind structure with n elements.
      *
      * @param n the number of elements in the UnionFind structure
      * @throws IllegalArgumentException if n is less than or equal to 0
@@ -52,8 +48,8 @@ public class UnionFind {
      * @param p the first element
      * @param q the second element
      * @throws IllegalArgumentException if p or q is out of bounds
-     * */
-    public void naiveUnion (int p, int q) {
+     */
+    public void naiveUnion(int p, int q) {
         if (p < 0 || p >= size || q < 0 || q >= size) {
             throw new IllegalArgumentException("Index out of bounds");
         }
@@ -79,7 +75,7 @@ public class UnionFind {
      * @param q the second element
      * @throws IllegalArgumentException if p or q is out of bounds
      */
-    public void quickUnion (int p, int q) {
+    public void quickUnion(int p, int q) {
         if (p < 0 || p >= size || q < 0 || q >= size) {
             throw new IllegalArgumentException("Index out of bounds");
         }
@@ -98,7 +94,7 @@ public class UnionFind {
      * @param q the second element
      * @throws IllegalArgumentException if p or q is out of bounds
      */
-    public void weightedQuickUnion (int p, int q) {
+    public void weightedQuickUnion(int p, int q) {
         if (p < 0 || p >= size || q < 0 || q >= size) {
             throw new IllegalArgumentException("Index out of bounds");
         }
@@ -126,7 +122,7 @@ public class UnionFind {
      * @return the root of the component containing element p
      * @throws IllegalArgumentException if p or q is out of bounds
      */
-    public int find (int p) {
+    public int find(int p) {
         if (p < 0 || p >= size) {
             throw new IllegalArgumentException("Index out of bounds");
         }
@@ -181,7 +177,7 @@ public class UnionFind {
     /**
      * @return the number of sets in the UnionFind structure
      */
-    public int count (){
+    public int count() {
         return count;
     }
 }
