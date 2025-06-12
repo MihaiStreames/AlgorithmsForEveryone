@@ -1,5 +1,7 @@
 package io.github.mihaistreames.afe.structs.graphs;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 /**
@@ -59,7 +61,7 @@ public record DirectedEdge<T>(T from, T to, double weight) {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return from + "->" + to + " (" + String.format("%.2f", weight) + ")";
     }
 }

@@ -1,5 +1,6 @@
 package io.github.mihaistreames.afe.algorithms.graphs;
 
+import io.github.mihaistreames.afe.structs.graphs.Edge;
 import io.github.mihaistreames.afe.structs.graphs.Graph;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,9 +70,9 @@ public class DepthFirstSearch<T> {
 
     private void dfs(@NotNull Graph<T> graph, T v) {
         marked.put(v, true);
-        if (graph.adj(v) == null) return; // Handle disconnected vertices
 
-        for (T w : graph.adj(v)) {
+        for (Edge<T> edge : graph.adj(v)) {
+            T w = edge.other(v); // Get the other vertex from the edge
             if (!marked.get(w)) {
                 edgeTo.put(w, v);
                 dfs(graph, w);

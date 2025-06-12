@@ -1,5 +1,6 @@
 package io.github.mihaistreames.afe.algorithms.graphs;
 
+import io.github.mihaistreames.afe.structs.graphs.Edge;
 import io.github.mihaistreames.afe.structs.graphs.Graph;
 import io.github.mihaistreames.afe.structs.queues.Queue;
 import org.jetbrains.annotations.NotNull;
@@ -90,8 +91,8 @@ public class BreadthFirstSearch<T> {
 
         while (!queue.isEmpty()) {
             T v = queue.dequeue();
-            if (graph.adj(v) == null) continue; // Handle disconnected vertices
-            for (T w : graph.adj(v)) {
+            for (Edge<T> edge : graph.adj(v)) {
+                T w = edge.other(v); // Get the other vertex from the edge
                 if (!marked.get(w)) {
                     edgeTo.put(w, v);
                     marked.put(w, true);
