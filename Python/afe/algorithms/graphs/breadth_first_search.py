@@ -1,7 +1,7 @@
 from typing import Optional, Iterable, List
 
 from ...structs.graphs import Graph
-from ...structs.queues import Queue
+from ...structs.rls import Queue
 
 
 class BreadthFirstSearch:
