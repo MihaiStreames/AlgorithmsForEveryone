@@ -8,15 +8,10 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * Depth-First Search implementation for graphs.
+ * Finds paths in a graph using the Depth-First Search algorithm.
  * <p>
- * DFS explores a graph by going as deep as possible along each branch before backtracking.
- * This implementation can find paths between vertices and determine reachability.
- * </p>
- * <p>
- * <strong>Time Complexity:</strong> O(V + E) where V is vertices and E is edges<br>
- * <strong>Space Complexity:</strong> O(V) for the recursion stack and data structures
- * </p>
+ * Time Complexity: O(V + E) <br>
+ * Space Complexity: O(V)
  *
  * @param <T> The type of the vertices.
  */
@@ -44,10 +39,8 @@ public class DepthFirstSearch<T> {
         dfs(graph, source);
     }
 
-    // ========== PUBLIC API ==========
-
     /**
-     * Is there a path from the source to the given vertex?
+     * Checks if there is a path from the source to the given vertex.
      *
      * @param v The vertex.
      * @return true if there is a path, false otherwise.
@@ -73,8 +66,6 @@ public class DepthFirstSearch<T> {
 
         return path;
     }
-
-    // ========== PRIVATE IMPLEMENTATION ==========
 
     private void dfs(@NotNull Graph<T> graph, T v) {
         marked.put(v, true);

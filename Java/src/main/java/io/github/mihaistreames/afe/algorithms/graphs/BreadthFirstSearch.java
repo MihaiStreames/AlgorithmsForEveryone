@@ -9,16 +9,10 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * Breadth-First Search implementation for graphs.
+ * Finds shortest paths in an unweighted graph using the Breadth-First Search algorithm.
  * <p>
- * BFS explores a graph by visiting all vertices at distance k from the source
- * before visiting vertices at distance k+1. This implementation can find shortest
- * paths (in terms of number of edges) between vertices in unweighted graphs.
- * </p>
- * <p>
- * <strong>Time Complexity:</strong> O(V + E) where V is vertices and E is edges<br>
- * <strong>Space Complexity:</strong> O(V) for the queue and data structures
- * </p>
+ * Time Complexity: O(V + E) <br>
+ * Space Complexity: O(V)
  *
  * @param <T> The type of the vertices.
  */
@@ -49,10 +43,8 @@ public class BreadthFirstSearch<T> {
         bfs(graph, source);
     }
 
-    // ========== PUBLIC API ==========
-
     /**
-     * Is there a path from the source to the given vertex?
+     * Checks if there is a path from the source to the given vertex.
      *
      * @param v The vertex.
      * @return true if there is a path, false otherwise.
@@ -89,8 +81,6 @@ public class BreadthFirstSearch<T> {
         if (!hasPathTo(v)) return -1;
         return distTo.getOrDefault(v, -1);
     }
-
-    // ========== PRIVATE IMPLEMENTATION ==========
 
     private void bfs(Graph<T> graph, T s) {
         Queue<T> queue = new Queue<>();

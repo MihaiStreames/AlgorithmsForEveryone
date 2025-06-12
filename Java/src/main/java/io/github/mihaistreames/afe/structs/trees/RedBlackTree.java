@@ -1,184 +1,158 @@
 package io.github.mihaistreames.afe.structs.trees;
 
 import io.github.mihaistreames.afe.structs.nodes.RedBlackNode;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Comparator;
-import java.util.Objects;
 
 /**
- * Implementation of a (Left-Leaning) Red-Black Tree.
- * <p>
- * This is a simplified variant of Red-Black trees that maintains the following properties:
- * <ol>
- * <li>Red links lean left (no right-leaning red links allowed)</li>
- * <li>No node has two red links connected to it</li>
- * <li>The tree has perfect black balance</li>
- * </ol>
- * </p>
- * <p>
- * <strong>Time Complexity:</strong> O(log n) for search, insert, and delete<br>
- * <strong>Space Complexity:</strong> O(n) where n is the number of elements<br>
- * </p>
+ * A generic, self-balancing binary search tree.
+ * This implementation stores key-value pairs and guarantees O(log n) time for search, insert, and delete operations.
  *
- * @param <T> The type of data stored in the tree
+ * @param <Key>   The type of the key, must be comparable.
+ * @param <Value> The type of the value.
  */
-public class RedBlackTree<T> {
+public class RedBlackTree<Key extends Comparable<Key>, Value> {
 
-    private RedBlackNode<T> root;
-    private final Comparator<T> comparator; // To compare elements
+    private static final boolean RED = true;
+    private static final boolean BLACK = false;
+
+    private RedBlackNode<Key, Value> root;
 
     /**
-     * Constructs a (Left-Leaning) Red-Black Tree using natural ordering.
-     * <p>
-     * The type T must implement {@link Comparable}.
-     * </p>
+     * Checks if the given node is red.
+     *
+     * @param x The node to check.
+     * @return true if the node is red, false otherwise.
      */
-    @SuppressWarnings("unchecked")
-    public RedBlackTree() {
-        this.root = null;
-        this.comparator = (o1, o2) -> ((Comparable<T>) o1).compareTo(o2);
+    private boolean isRed(RedBlackNode<Key, Value> x) {
+        if (x == null) return false;
+        return x.color == RED;
     }
 
     /**
-     * Constructs a (Left-Leaning) Red-Black Tree using the provided comparator.
-     * <p>
-     * This constructor allows for custom ordering of elements.
-     * </p>
+     * Returns the size of the subtree rooted at the given node.
      *
-     * @param comparator The comparator to use for ordering elements
-     * @throws NullPointerException if the comparator is null
+     * @param x The root of the subtree.
+     * @return The number of nodes in the subtree.
      */
-    public RedBlackTree(@NotNull final Comparator<T> comparator) {
-        this.root = null;
-        this.comparator = Objects.requireNonNull(comparator, "Comparator cannot be null");
-    }
-
-    // ========== PUBLIC API ==========
-
-    /**
-     * Inserts the specified element into this tree.
-     * <p>
-     * If the element already exists, this method does nothing.
-     * The insertion maintains the Left-Leaning Red-Black tree properties.
-     * </p>
-     *
-     * @param data the element to insert
-     * @throws NullPointerException if the data is null
-     */
-    public void insert(@NotNull final T data) {
-        Objects.requireNonNull(data, "Data cannot be null");
-        root = put(root, data);
-        root.color = RedBlackNode.BLACK; // Root is always black
-    }
-
-    // ========== PRIVATE HELPER METHODS ==========
-
-    /**
-     * Recursive helper method for insertion.
-     * <p>
-     * This follows the Left-Leaning Red-Black tree insertion algorithm:
-     * <ol>
-     * <li>Standard BST insertion (new nodes are red)</li>
-     * <li>Rotate left if right child is red and left child is black</li>
-     * <li>Rotate right if left child and left-left grandchild are both red</li>
-     * <li>Flip colors if both children are red</li>
-     * </ol>
-     * </p>
-     *
-     * @param node the current node (subtree root)
-     * @param data the data to insert
-     * @return the new subtree root after insertion and rebalancing
-     */
-    private @NotNull RedBlackNode<T> put(@Nullable RedBlackNode<T> node, @NotNull final T data) {
-        // Base case: create new red node
-        if (node == null) return new RedBlackNode<>(data);
-
-        // Standard BST insertion
-        final int comparison = comparator.compare(data, node.data);
-        if (comparison < 0) {
-            node.left = put(node.left, data);
-        } else if (comparison > 0) {
-            node.right = put(node.right, data);
-        } else {
-            // Key already exists - do nothing
-            return node;
-        }
-
-        // LLRB tree balancing operations
-        // 1. Rotate left if right child is red and left child is black
-        if (isRed(node.right) && !isRed(node.left)) {
-            node = rotateLeft(node);
-        }
-
-        // 2. Rotate right if left child and left-left grandchild are both red
-        if (isRed(node.left) && isRed(node.left.left)) {
-            node = rotateRight(node);
-        }
-
-        // 3. Flip colors if both children are red
-        if (isRed(node.left) && isRed(node.right)) {
-            flipColors(node);
-        }
-
-        return node;
+    private int size(RedBlackNode<Key, Value> x) {
+        if (x == null) return 0;
+        return x.size;
     }
 
     /**
-     * Rotates the given node to the left.
+     * Returns the total number of key-value pairs in the tree.
      *
-     * @param node the node to rotate
-     * @return the new root of this subtree (previously the right child)
+     * @return The size of the tree.
      */
+    public int size() {
+        return size(root);
+    }
+
+    /**
+     * Checks if the tree is empty.
+     *
+     * @return true if the tree is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    /**
+     * Retrieves the value associated with the given key.
+     *
+     * @param key The key to search for.
+     * @return The value associated with the key, or null if the key is not found.
+     */
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException("Key cannot be null");
+        return get(root, key);
+    }
+
+    private Value get(RedBlackNode<Key, Value> x, Key key) {
+        while (x != null) {
+            int cmp = key.compareTo(x.key);
+            if (cmp < 0) x = x.left;
+            else if (cmp > 0) x = x.right;
+            else return x.value;
+        }
+        return null;
+    }
+
+    /**
+     * Checks if the tree contains the given key.
+     *
+     * @param key The key to search for.
+     * @return true if the key exists, false otherwise.
+     */
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+
+    /**
+     * Inserts a key-value pair into the tree.
+     *
+     * @param key   The key.
+     * @param value The value.
+     */
+    public void put(Key key, Value value) {
+        if (key == null) throw new IllegalArgumentException("Key cannot be null");
+        if (value == null) {
+            // delete(key); // Optional: handle null value as deletion
+            return;
+        }
+        root = put(root, key, value);
+        root.color = BLACK;
+    }
+
+    @Contract("null, _, _ -> new")
+    private @NotNull RedBlackNode<Key, Value> put(RedBlackNode<Key, Value> h, Key key, Value val) {
+        if (h == null) return new RedBlackNode<>(key, val, RED, 1);
+
+        int cmp = key.compareTo(h.key);
+        if (cmp < 0) h.left = put(h.left, key, val);
+        else if (cmp > 0) h.right = put(h.right, key, val);
+        else h.value = val;
+
+        // Balance the tree
+        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right)) flipColors(h);
+        h.size = size(h.left) + size(h.right) + 1;
+
+        return h;
+    }
+
+
+    // --- Helper methods for balancing ---
+
     @NotNull
-    private RedBlackNode<T> rotateLeft(@NotNull final RedBlackNode<T> node) {
-        final RedBlackNode<T> rightChild = node.right;
-        node.right = rightChild.left;
-        rightChild.left = node;
-        rightChild.color = rightChild.left.color;
-        rightChild.left.color = RedBlackNode.RED;
-        return rightChild;
+    private RedBlackNode<Key, Value> rotateRight(@NotNull RedBlackNode<Key, Value> h) {
+        RedBlackNode<Key, Value> x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
     }
 
-    /**
-     * Rotates the given node to the right.
-     *
-     * @param node the node to rotate
-     * @return the new root of this subtree (previously the left child)
-     */
     @NotNull
-    private RedBlackNode<T> rotateRight(@NotNull final RedBlackNode<T> node) {
-        final RedBlackNode<T> leftChild = node.left;
-        node.left = leftChild.right;
-        leftChild.right = node;
-        leftChild.color = leftChild.right.color;
-        leftChild.right.color = RedBlackNode.RED;
-        return leftChild;
+    private RedBlackNode<Key, Value> rotateLeft(@NotNull RedBlackNode<Key, Value> h) {
+        RedBlackNode<Key, Value> x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
     }
 
-    /**
-     * Flips the colors of a node and its two children.
-     *
-     * @param node the node whose colors (and children's colors) to flip
-     */
-    private void flipColors(@NotNull final RedBlackNode<T> node) {
-        node.color = RedBlackNode.RED;
-        if (node.left != null) node.left.color = RedBlackNode.BLACK;
-        if (node.right != null) node.right.color = RedBlackNode.BLACK;
-    }
-
-    /**
-     * Checks if a node is red.
-     * <p>
-     * Null nodes are considered black by convention.
-     * </p>
-     *
-     * @param node the node to check
-     * @return true if the node is red, false if black or null
-     */
-    private boolean isRed(@Nullable final RedBlackNode<T> node) {
-        if (node == null) return false; // Null nodes are black
-        return node.isRed();
+    private void flipColors(@NotNull RedBlackNode<Key, Value> h) {
+        h.color = !h.color;
+        h.left.color = !h.left.color;
+        h.right.color = !h.right.color;
     }
 }

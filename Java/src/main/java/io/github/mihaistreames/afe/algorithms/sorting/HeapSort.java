@@ -2,21 +2,15 @@ package io.github.mihaistreames.afe.algorithms.sorting;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * Implementation of the Heap Sort algorithm.
+ * A comparison-based sorting algorithm that uses a binary heap data structure.
  * <p>
- * Heap Sort is a comparison-based sorting algorithm that uses a binary heap data structure.
- * It divides the input into a sorted and an unsorted region, and iteratively shrinks the
- * unsorted region by extracting the largest element and moving it to the sorted region.
- * </p>
- * <p>
- * <strong>Time Complexity:</strong> O(n log n) in all cases<br>
- * <strong>Space Complexity:</strong> O(1) additional space<br>
- * <strong>Stability:</strong> Not stable - may change relative order of equal elements<br>
- * <strong>In-place:</strong> Yes - sorts in-place with constant extra space
- * </p>
+ * This implementation is not stable. <br>
+ * Time Complexity: O(n log n) <br>
+ * Space Complexity: O(1)
  */
 public final class HeapSort {
 
@@ -24,129 +18,69 @@ public final class HeapSort {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
 
-    // ========== PUBLIC API - List Operations ==========
-
     /**
-     * Sorts the list in ascending natural order using heap sort.
-     * <p>
-     * The list elements must implement {@link Comparable}. The sort is not stable
-     * but runs in guaranteed O(n log n) time.
-     * </p>
+     * Sorts a list using the heapsort algorithm and natural ordering.
      *
      * @param <T>  the type of elements, must extend {@link Comparable}
-     * @param list the list to sort
-     * @throws NullPointerException if the list is null
+     * @param list the list to be sorted
      */
-    public static <T extends Comparable<T>> void sort(@NotNull final List<T> list) {
-        Objects.requireNonNull(list, "List cannot be null");
-        sort(list, Comparable::compareTo);
+    public static <T extends Comparable<T>> void heapSort(@NotNull final List<T> list) {
+        sort(list, Comparator.naturalOrder());
     }
 
     /**
-     * Sorts the list using the provided comparator and heap sort.
-     * <p>
-     * The sort is not stable but runs in guaranteed O(n log n) time.
-     * </p>
+     * Sorts a list using the heapsort algorithm and a custom comparator.
      *
      * @param <T>        the type of elements
-     * @param list       the list to sort
-     * @param comparator the comparator to determine element order
-     * @throws NullPointerException if the list or comparator is null
+     * @param list       the list to be sorted
+     * @param comparator the comparator to determine the order
      */
-    public static <T> void sort(@NotNull final List<T> list, @NotNull final Comparator<T> comparator) {
-        Objects.requireNonNull(list, "List cannot be null");
-        Objects.requireNonNull(comparator, "Comparator cannot be null");
+    public static <T> void heapSort(@NotNull final List<T> list,
+                                    @NotNull final Comparator<T> comparator) {
+        sort(list, comparator);
+    }
 
-        final int n = list.size();
-        if (n <= 1) {
-            return;
+    private static <T> void sort(@NotNull final List<T> list,
+                                 @NotNull final Comparator<T> comparator) {
+        final int size = list.size();
+        // Build heap (rearrange array)
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            heapify(list, size, i, comparator);
         }
-
-        // Build max heap
-        for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(list, n, i, comparator);
-        }
-
-        // Extract elements from heap one by one
-        for (int i = n - 1; i > 0; i--) {
+        // One by one extract an element from heap
+        for (int i = size - 1; i >= 0; i--) {
             // Move current root to end
-            Collections.swap(list, 0, i);
-
-            // Call heapify on the reduced heap
+            final T temp = list.getFirst();
+            list.set(0, list.get(i));
+            list.set(i, temp);
+            // call max heapify on the reduced heap
             heapify(list, i, 0, comparator);
         }
     }
 
-    // ========== PUBLIC API - Array Operations ==========
-
-    /**
-     * Sorts the array in ascending natural order using heap sort.
-     * <p>
-     * Convenience method that converts the array to a list and sorts it.
-     * Changes are reflected in the original array.
-     * </p>
-     *
-     * @param <T>   the type of elements, must extend {@link Comparable}
-     * @param array the array to sort
-     * @throws NullPointerException if the array is null
-     */
-    public static <T extends Comparable<T>> void sort(@NotNull final T[] array) {
-        Objects.requireNonNull(array, "Array cannot be null");
-        final List<T> list = Arrays.asList(array);
-        sort(list);
-    }
-
-    /**
-     * Sorts the array using the provided comparator and heap sort.
-     * <p>
-     * Convenience method that converts the array to a list and sorts it.
-     * Changes are reflected in the original array.
-     * </p>
-     *
-     * @param <T>        the type of elements
-     * @param array      the array to sort
-     * @param comparator the comparator to determine element order
-     * @throws NullPointerException if the array or comparator is null
-     */
-    public static <T> void sort(@NotNull final T[] array, @NotNull final Comparator<T> comparator) {
-        Objects.requireNonNull(array, "Array cannot be null");
-        Objects.requireNonNull(comparator, "Comparator cannot be null");
-        final List<T> list = Arrays.asList(array);
-        sort(list, comparator);
-    }
-
-    // ========== PRIVATE IMPLEMENTATION ==========
-
-    /**
-     * Heapifies a subtree rooted with node i which is an index in the list.
-     * <p>
-     * Assumes that the subtrees rooted at left and right children are already heaps.
-     * </p>
-     */
     private static <T> void heapify(@NotNull final List<T> list,
-                                    final int n,
+                                    final int size,
                                     final int i,
                                     @NotNull final Comparator<T> comparator) {
-        int largest = i;        // Initialize largest as root
-        int left = 2 * i + 1;   // Left child
-        int right = 2 * i + 2;  // Right child
+        int largest = i; // Initialize largest as root
+        final int left = 2 * i + 1;
+        final int right = 2 * i + 2;
 
         // If left child is larger than root
-        if (left < n && comparator.compare(list.get(left), list.get(largest)) > 0) {
+        if (left < size && comparator.compare(list.get(left), list.get(largest)) > 0) {
             largest = left;
         }
-
         // If right child is larger than largest so far
-        if (right < n && comparator.compare(list.get(right), list.get(largest)) > 0) {
+        if (right < size && comparator.compare(list.get(right), list.get(largest)) > 0) {
             largest = right;
         }
-
         // If largest is not root
         if (largest != i) {
-            Collections.swap(list, i, largest);
-
+            final T swap = list.get(i);
+            list.set(i, list.get(largest));
+            list.set(largest, swap);
             // Recursively heapify the affected sub-tree
-            heapify(list, n, largest, comparator);
+            heapify(list, size, largest, comparator);
         }
     }
 }

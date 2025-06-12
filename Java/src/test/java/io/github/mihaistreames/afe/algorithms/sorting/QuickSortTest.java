@@ -58,7 +58,7 @@ class QuickSortTest {
         List<Integer> expectedSortedData = new ArrayList<>(apiData);
         Collections.sort(expectedSortedData);
 
-        QuickSort.sort(apiData);
+        QuickSort.quickSort(apiData);
 
         assertEquals(expectedSortedData, apiData);
         System.out.println("QuickSort test passed!");

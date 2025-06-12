@@ -1,191 +1,174 @@
 package io.github.mihaistreames.afe.structs.arrays;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Implementation of a UnionFind structure.
- * <p>
- * This structure is used to efficiently manage and query connected components in a set.
- * It supports three union operations:
- * <ol>
- *     <li>Naive Union</li>
- *     <li>Quick Union</li>
- *     <li>Weighted Quick Union</li>
- * </ol>
- * The structure also supports path compression to optimize the find operation.<br>
- * <ul>
- *     <li><strong>Time Complexity:</strong> O(log n) for union and find operations with path compression</li>
- *     <li><strong>Time Complexity:</strong> O(n) for naive union</li>
- *     <li><strong>Space Complexity:</strong> O(n)</li>
- * </ul>
- * </p>
+ * A generic Union-Find (Disjoint Set) data structure.
+ * This structure manages a collection of disjoint sets and supports operations
+ * to merge them and find which set an element belongs to.
+ *
+ * @param <T> The type of elements in the sets.
  */
-public class UnionFind {
-    private final int[] ids;
-    private final int[] heights; // for weighted quick union
-    private final int size;
-    private int count;
+public class UnionFind<T> {
+    private final Map<T, T> parent;       // parent[i] = parent of i
+    private final Map<T, Integer> height; // height[i] = height of subtree rooted at i
+    private int count;                    // number of components
 
     /**
-     * Constructs an UnionFind structure with n elements.
+     * Initializes a UnionFind structure with elements, each in its own set.
      *
-     * @param n the number of elements in the UnionFind structure
-     * @throws IllegalArgumentException if n is less than or equal to 0
+     * @param elements The initial collection of elements.
      */
-    public UnionFind(int n) {
-        ids = new int[n];
-        heights = new int[n]; // initialize heights for weighted quick union
-        count = size = n;
-
-        for (int i = 0; i < n; i++) {
-            ids[i] = i;
-            heights[i] = 1; // initialize heights to 1
+    public UnionFind(@NotNull Collection<T> elements) {
+        parent = new HashMap<>();
+        height = new HashMap<>();
+        for (T element : elements) {
+            parent.put(element, element);
+            height.put(element, 1);
         }
+        this.count = elements.size();
     }
 
     /**
-     * Does a naive union of two elements p and q.
-     *
-     * @param p the first element
-     * @param q the second element
-     * @throws IllegalArgumentException if p or q is out of bounds
-     */
-    public void naiveUnion(int p, int q) {
-        validateIndex(p);
-        validateIndex(q);
-
-        int pID = ids[p];
-        int qID = ids[q];
-
-        if (pID == qID) {
-            return; // already connected
-        }
-        for (int i = 0; i < size; i++) {
-            if (ids[i] == pID) {
-                ids[i] = qID; // connect p's component to q's component
-                count--;
-                break;
-            }
-        }
-    }
-
-    /**
-     * Does a quick union of two elements p and q.
-     *
-     * @param p the first element
-     * @param q the second element
-     * @throws IllegalArgumentException if p or q is out of bounds
-     */
-    public void quickUnion(int p, int q) {
-        validateIndex(p);
-        validateIndex(q);
-
-        int pRoot = find(p);
-        int qRoot = find(q);
-        if (pRoot == qRoot) {
-            return; // already connected
-        }
-        ids[pRoot] = qRoot; // connect p's root to q's root
-    }
-
-    /**
-     * Does a weighted quick union of two elements p and q.
-     *
-     * @param p the first element
-     * @param q the second element
-     * @throws IllegalArgumentException if p or q is out of bounds
-     */
-    public void weightedQuickUnion(int p, int q) {
-        validateIndex(p);
-        validateIndex(q);
-
-        int pRoot = compressedFind(p);
-        int qRoot = compressedFind(q);
-        if (pRoot == qRoot) {
-            return; // already connected
-        }
-
-        if (heights[pRoot] < heights[qRoot]) {
-            ids[pRoot] = qRoot; // connect smaller tree to larger tree
-        } else if (heights[pRoot] > heights[qRoot]) {
-            ids[qRoot] = pRoot; // connect smaller tree to larger tree
-        } else {
-            ids[qRoot] = pRoot; // connect q's root to p's root
-            heights[pRoot]++; // increase height of the new root
-        }
-        count--; // decrease the number of components
-    }
-
-    /**
-     * Finds the root of the component containing element p.
-     *
-     * @param p the first element
-     * @return the root of the component containing element p
-     * @throws IllegalArgumentException if p or q is out of bounds
-     */
-    public int find(int p) {
-        validateIndex(p);
-
-        while (p != ids[p]) {
-            p = ids[p]; // follow the chain to find the root
-        }
-        return p;
-    }
-
-    /**
-     * Compressed find operation that uses path compression to flatten the structure.
-     *
-     * @param p the element to find
-     * @return the root of the component containing element p
-     * @throws IllegalArgumentException if p is out of bounds
-     */
-    public int compressedFind(int p) {
-        validateIndex(p);
-
-        int root = p;
-        while (root != ids[root]) {
-            root = ids[root]; // find the root
-        }
-        // path compression
-        while (p != root) {
-            int next = ids[p];
-            ids[p] = root; // point directly to the root
-            p = next;
-        }
-        return root;
-    }
-
-    /**
-     * Recursive compressed find operation that uses path compression to flatten the structure.
-     *
-     * @param p the element to find
-     * @return the root of the component containing element p
-     * @throws IllegalArgumentException if p is out of bounds
-     */
-    public int recursiveCompressedFind(int p) {
-        validateIndex(p);
-
-        if (p != ids[p]) {
-            ids[p] = recursiveCompressedFind(ids[p]); // path compression
-        }
-        return ids[p]; // return the root
-    }
-
-    /**
-     * @return the number of sets in the UnionFind structure
+     * @return the number of disjoint sets.
      */
     public int count() {
         return count;
     }
 
-    // ========== PRIVATE HELPER METHODS ==========
+    /**
+     * Validates that the element exists in the structure.
+     *
+     * @param p the element to validate.
+     */
+    private void validate(T p) {
+        if (!parent.containsKey(p)) {
+            throw new IllegalArgumentException("Element " + p + " is not in the set.");
+        }
+    }
 
     /**
-     * Checks if an index is within the valid range.
+     * Finds the representative of the set containing p (without path compression).
      *
-     * @param index the index to validate
+     * @param p the element.
+     * @return the representative of the set containing p.
      */
-    private void validateIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IllegalArgumentException("Index out of bounds");
+    public T find(T p) {
+        validate(p);
+        T current = p;
+        while (!current.equals(parent.get(current))) {
+            current = parent.get(current);
         }
+        return current;
+    }
+
+    /**
+     * Finds the representative of the set containing p using iterative path compression.
+     *
+     * @param p the element.
+     * @return the representative of the set containing p.
+     */
+    public T compressedFind(T p) {
+        validate(p);
+        T root = find(p); // Find the root first
+        // Path compression
+        T current = p;
+        while (!current.equals(root)) {
+            T next = parent.get(current);
+            parent.put(current, root);
+            current = next;
+        }
+        return root;
+    }
+
+    /**
+     * Finds the representative of the set containing p using recursive path compression.
+     *
+     * @param p the element.
+     * @return the representative of the set containing p.
+     */
+    public T recursiveCompressedFind(T p) {
+        validate(p);
+        if (p.equals(parent.get(p))) {
+            return p;
+        }
+        T root = recursiveCompressedFind(parent.get(p));
+        parent.put(p, root); // Path compression
+        return root;
+    }
+
+    /**
+     * Merges the sets containing p and q using a naive, inefficient approach.
+     *
+     * @param p an element in the first set.
+     * @param q an element in the second set.
+     */
+    public void naiveUnion(T p, T q) {
+        validate(p);
+        validate(q);
+        T pID = find(p);
+        T qID = find(q);
+
+        if (pID.equals(qID)) return;
+
+        // Inefficiently connect p's component to q's component
+        for (T key : parent.keySet()) {
+            if (parent.get(key).equals(pID)) {
+                parent.put(key, qID);
+            }
+        }
+        count--;
+    }
+
+    /**
+     * Merges the sets containing p and q (quick union).
+     *
+     * @param p an element in the first set.
+     * @param q an element in the second set.
+     */
+    public void quickUnion(T p, T q) {
+        validate(p);
+        validate(q);
+        T pRoot = find(p);
+        T qRoot = find(q);
+
+        if (pRoot.equals(qRoot)) return;
+
+        parent.put(pRoot, qRoot);
+        count--;
+    }
+
+    /**
+     * Merges the sets containing p and q using a weighted strategy (union by height/rank).
+     *
+     * @param p an element in the first set.
+     * @param q an element in the second set.
+     */
+    public void weightedQuickUnion(T p, T q) {
+        validate(p);
+        validate(q);
+        // Use a find that does path compression for best performance
+        T rootP = compressedFind(p);
+        T rootQ = compressedFind(q);
+
+        if (rootP.equals(rootQ)) return;
+
+        int heightP = height.get(rootP);
+        int heightQ = height.get(rootQ);
+
+        // Attach smaller tree under root of taller tree
+        if (heightP < heightQ) {
+            parent.put(rootP, rootQ);
+        } else if (heightP > heightQ) {
+            parent.put(rootQ, rootP);
+        } else {
+            parent.put(rootQ, rootP);
+            height.put(rootP, heightP + 1);
+        }
+        count--;
     }
 }

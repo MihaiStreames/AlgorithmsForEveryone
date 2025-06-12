@@ -2,39 +2,32 @@ package io.github.mihaistreames.afe.structs.graphs;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Implementation of a directed graph (digraph) using adjacency lists.
- * <p>
- * This graph representation stores vertices as generic types and maintains a set of directed edges
- * from each vertex to its adjacent vertices.
- * </p>
- * <strong>Time Complexity:</strong><br>
- * - Add edge: O(1)<br>
- * - Get adjacent vertices: O(1)<br>
- * - Space: O(V + E) where V is vertices and E is edges<br>
- * </p>
+ * A generic directed graph (digraph) implemented using an adjacency list.
  *
- * @param <T> the type of the vertices
+ * @param <T> The type of the vertices.
  */
 public class Digraph<T> {
-
     private final Map<T, Set<DirectedEdge<T>>> adj;
-    private int edges;
+    private int edgeCount;
 
     /**
-     * Initializes an empty digraph.
+     * Constructs an empty digraph.
      */
     public Digraph() {
         this.adj = new HashMap<>();
-        this.edges = 0;
+        this.edgeCount = 0;
     }
 
     /**
      * Returns the number of vertices in the digraph.
      *
-     * @return the number of vertices
+     * @return the number of vertices.
      */
     public int V() {
         return adj.size();
@@ -43,64 +36,81 @@ public class Digraph<T> {
     /**
      * Returns the number of edges in the digraph.
      *
-     * @return the number of edges
+     * @return the number of edges.
      */
     public int E() {
-        return edges;
+        return edgeCount;
     }
 
     /**
-     * Adds a vertex to the digraph. If the vertex already exists, this method has no effect.
+     * Adds a vertex to the digraph.
      *
-     * @param vertex the vertex to add
+     * @param v the vertex to add.
      */
-    public void addVertex(T vertex) {
-        adj.putIfAbsent(vertex, new HashSet<>());
+    public void addVertex(T v) {
+        adj.putIfAbsent(v, new HashSet<>());
     }
 
     /**
-     * Adds a directed edge to the digraph. The vertices of the edge are automatically added if not already present.
+     * Adds a directed edge to the digraph.
      *
-     * @param e the directed edge to add
+     * @param edge the directed edge to add.
      */
-    public void addEdge(@NotNull DirectedEdge<T> e) {
-        T v = e.from();
-        T w = e.to();
-        addVertex(v);
-        addVertex(w);
-        adj.get(v).add(e);
-        edges++;
+    public void addEdge(@NotNull DirectedEdge<T> edge) {
+        T from = edge.from();
+        T to = edge.to();
+        addVertex(from);
+        addVertex(to);
+        if (adj.get(from).add(edge)) {
+            edgeCount++;
+        }
     }
 
     /**
-     * Returns the edges outgoing from a given vertex.
+     * Returns the edges adjacent to a given vertex.
      *
-     * @param vertex the vertex
-     * @return an iterable collection of edges outgoing from the vertex
+     * @param v the vertex.
+     * @return an iterable of adjacent edges.
      */
-    public Iterable<DirectedEdge<T>> adj(T vertex) {
-        return adj.getOrDefault(vertex, Collections.emptySet());
+    public Iterable<DirectedEdge<T>> adj(T v) {
+        return adj.getOrDefault(v, new HashSet<>());
     }
 
     /**
-     * Returns a set containing all vertices in the digraph.
+     * Returns all vertices in the digraph.
      *
-     * @return an unmodifiable set of all vertices
+     * @return an iterable of all vertices.
      */
-    public Set<T> vertices() {
-        return Collections.unmodifiableSet(adj.keySet());
+    public Iterable<T> vertices() {
+        return adj.keySet();
     }
 
     /**
      * Returns all edges in the digraph.
      *
-     * @return an iterable collection of all edges in the digraph
+     * @return an iterable of all edges.
      */
     public Iterable<DirectedEdge<T>> edges() {
-        Set<DirectedEdge<T>> list = new HashSet<>();
-        for (T v : adj.keySet()) {
-            list.addAll(adj.get(v));
+        Set<DirectedEdge<T>> allEdges = new HashSet<>();
+        for (Set<DirectedEdge<T>> edgeSet : adj.values()) {
+            allEdges.addAll(edgeSet);
         }
-        return list;
+        return allEdges;
+    }
+
+    /**
+     * Returns a new digraph that is the reverse of this digraph.
+     *
+     * @return The reversed digraph.
+     */
+    public Digraph<T> reverse() {
+        Digraph<T> reversed = new Digraph<>();
+        for (T v : this.vertices()) {
+            reversed.addVertex(v);
+        }
+        for (DirectedEdge<T> e : this.edges()) {
+            reversed.addEdge(new DirectedEdge<>(e.to(), e.from(), e.weight()));
+        }
+        return reversed;
     }
 }

@@ -5,91 +5,82 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Represents a generic, undirected, weighted edge.
- * The type parameter T represents the type of the vertices.
+ * Represents a weighted undirected edge in a graph.
  *
- * @param <T> the type of the vertices
+ * @param <T> The type of the vertices.
  */
 public class Edge<T> implements Comparable<Edge<T>> {
-
-    protected final T vertex1;
-    protected final T vertex2;
+    private final T v;
+    private final T w;
     private final double weight;
 
     /**
-     * Initializes an edge between two vertices with a given weight.
+     * Constructs an undirected edge.
      *
-     * @param vertex1 the first vertex
-     * @param vertex2 the second vertex
-     * @param weight  the weight of the edge
-     * @throws NullPointerException     if either vertex is null
-     * @throws IllegalArgumentException if the weight is NaN
+     * @param v      one vertex.
+     * @param w      the other vertex.
+     * @param weight the weight of the edge.
      */
-    public Edge(T vertex1, T vertex2, double weight) {
-        this.vertex1 = Objects.requireNonNull(vertex1, "Vertex cannot be null");
-        this.vertex2 = Objects.requireNonNull(vertex2, "Vertex cannot be null");
-
-        if (Double.isNaN(weight)) {
-            throw new IllegalArgumentException("Weight cannot be NaN");
-        }
-
+    public Edge(T v, T w, double weight) {
+        this.v = v;
+        this.w = w;
         this.weight = weight;
     }
 
     /**
      * Returns the weight of the edge.
      *
-     * @return the edge weight
+     * @return the edge weight.
      */
     public double weight() {
         return weight;
     }
 
     /**
-     * Returns one of the two vertices of the edge.
+     * Returns one of the vertices of the edge.
      *
-     * @return one of the edge's vertices
+     * @return one vertex.
      */
     public T either() {
-        return vertex1;
+        return v;
     }
 
     /**
-     * Given one vertex of the edge, returns the other.
+     * Returns the vertex opposite to the given vertex.
      *
-     * @param vertex one endpoint of the edge
-     * @return the other endpoint of the edge
-     * @throws IllegalArgumentException if the given vertex is not part of this edge
+     * @param vertex the vertex.
+     * @return the other vertex.
+     * @throws IllegalArgumentException if the vertex is not part of the edge.
      */
     public T other(@NotNull T vertex) {
-        if (vertex.equals(vertex1)) {
-            return vertex2;
-        } else if (vertex.equals(vertex2)) {
-            return vertex1;
-        } else {
-            throw new IllegalArgumentException("Illegal endpoint");
-        }
+        if (vertex.equals(v)) return w;
+        if (vertex.equals(w)) return v;
+        throw new IllegalArgumentException("Illegal endpoint");
     }
 
-    /**
-     * Compares this edge to another edge by weight.
-     *
-     * @param that the other edge to compare to
-     * @return a negative integer, zero, or a positive integer as this edge's
-     * weight is less than, equal to, or greater than the other edge's weight
-     */
     @Override
     public int compareTo(@NotNull Edge<T> that) {
         return Double.compare(this.weight, that.weight);
     }
 
-    /**
-     * Returns a string representation of the edge.
-     *
-     * @return a string in the format "v1-v2 weight"
-     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge<?> edge = (Edge<?>) o;
+        return Double.compare(edge.weight, weight) == 0 &&
+                (Objects.equals(v, edge.v) && Objects.equals(w, edge.w) ||
+                        Objects.equals(v, edge.w) && Objects.equals(w, edge.v));
+    }
+
+    @Override
+    public int hashCode() {
+        // Hashcode is order-independent for v and w
+        return Objects.hash(Objects.hashCode(v) + Objects.hashCode(w), weight);
+    }
+
     @Override
     public String toString() {
-        return String.format("%s-%s %.5f", vertex1, vertex2, weight);
+        return String.format("%s-%s %.2f", v.toString(), w.toString(), weight);
     }
 }
