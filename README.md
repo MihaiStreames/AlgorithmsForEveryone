@@ -5,7 +5,6 @@ project is designed for educational purposes, providing clear and well-documente
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.mihaistreames/afe.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.mihaistreames/afe)
-[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/io.github.mihaistreames/afe/badge.svg)](https://central.sonatype.com/artifact/io.github.mihaistreames/afe)
 
 ## Implementations
 
@@ -22,13 +21,13 @@ The following are available in both the Java and Python libraries:
 
 ### Sorting Algorithms
 
-- QuickSort
-- MergeSort
-- HeapSort
-- InsertionSort
-- SelectionSort
-- ShellSort
-- BubbleSort
+- Quicksort
+- Merge Sort
+- Heap Sort
+- Insertion Sort
+- Selection Sort
+- Shell Sort
+- Bubble Sort
 
 ### Searching Algorithms
 
@@ -38,13 +37,29 @@ The following are available in both the Java and Python libraries:
 
 - Breadth-First Search (BFS)
 - Depth-First Search (DFS)
+- Depth-First Ordering
+- Kosaraju's Algorithm
 
 ### Data Structures
 
 - Queue
+- Stack
 - Union-Find
-- Graph (Adjacency List)
+- Edge
+    - Directed Edge
+- Graph
+    - Directed Graph
+- Node
+    - Red-Black Node
 - Red-Black Tree (Left-Leaning)
+
+## Acknowledgments
+
+This project was developed based on my university coursework in data structures and algorithms. The course curriculum
+itself draws heavily from the classic textbook **"Algorithms, 4th Edition"** by Robert Sedgewick and Kevin Wayne.
+
+Consequently, since this library is a direct reflection of my studies, its API design and implementation strategies will
+show a strong resemblance to those presented in the book.
 
 ## License
 
